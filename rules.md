@@ -1,19 +1,19 @@
-### Branches
+### `Branches`
 
 Ny branch för varje komponent.
 Pull request görs till dev tillsammans vid överenskommet tillfälle
 
-### Arbetstider
+### `Arbetstider`
 
 08:30 - 16:30 standard
 
-### Namnkonvention
+### `Namnkonvention`
 
 Standard: camelCase
 Komponenter: PascalCase
 Klass-namn: snake_case/kebab-case.
 
-### Mappstruktur
+### `Mappstruktur`
 
 Komponenter: "src/Components/ExampleComponent/ExampleComponent.js, ExampleComponent.test.js, ExampleComponent.css"
 
@@ -21,7 +21,7 @@ Custom hooks: Egen mapp "Hooks".
 
 Övriga komponenter som inte platsar i components läggs i "abstract".
 
-### Övrigt
+### `Övrigt`
 
 Funktioner deklareras med "function".
 
