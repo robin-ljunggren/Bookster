@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './SiteHeader.css';
-import ButtonComponent from '../abstract/buttonComponent';
+import ButtonComponent from '../abstract/ButtonComponent.js';
+import AuthForm from '../AuthForm/AuthForm';
 
 export default function SiteHeader() {
 
   // states and username will be passed through useContext instead
   const [loggedInState, setLoggedInState] = useState(false);
+  const dialogRef = useRef();
   let username = "Bob";
 
-  
+  console.log("render")
 
   return (
-
     <header className='site-header-container'>
       <h1 className='site-header-h1'>Booksters Website</h1>
       <section className='site-header-section'>
@@ -20,7 +21,7 @@ export default function SiteHeader() {
         <ButtonComponent 
           className={"sign-in-btn"}
           testId={"sign-in-btn"}
-          onClick={() => {console.log("onClick reacted")}}
+          onClick={() => {dialogRef.current.showModal()}}
           txt={"Sign in"}
         /> : 
         <ButtonComponent 
@@ -30,6 +31,9 @@ export default function SiteHeader() {
           txt={"Sign out"}
         />}
       </section>
+      <dialog ref={dialogRef}>
+        <AuthForm />
+      </dialog>
     </header>
   )
 }

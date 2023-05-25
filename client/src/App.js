@@ -4,7 +4,7 @@ import SiteHeader from './Components/SiteHeader/SiteHeader.js';
 
 function App() {
   return(
-  <SiteHeader/>
+    <SiteHeader/>
   )
 }
 
