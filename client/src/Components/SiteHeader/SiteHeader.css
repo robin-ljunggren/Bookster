@@ -18,14 +18,3 @@
   font-size: 1.6rem;
   margin-bottom: 0.5em;
 }
-.site-header-container-login {
-  display: flex;
-  background-color: rgb(187, 187, 187);
-  align-items: center;
-  justify-content: center;
-  padding: 1.2em 0;
-}
-.site-header-h1-login {
-  font-size: 1.5rem;
-  font-weight: 500;
-}
