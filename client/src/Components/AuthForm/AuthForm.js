@@ -32,11 +32,16 @@ export default function AuthForm({ dialogRef }) {
       </p>
     );
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (formState === "login") {
-      authService.login(credentials.username, credentials.password);
+      let resp = await authService.login(
+        credentials.username,
+        credentials.password
+      );
+      console.log("resp: ", resp);
+      if (resp === 200) dialogRef.current.close();
     } else if (formState === "registration") {
       authService.registration(credentials.username, credentials.password);
     }
