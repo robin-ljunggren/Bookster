@@ -17,6 +17,9 @@ export default function Books() {
   const [query, setQuery] = useState("");
 
   const { isLoading, data } = useBookSearchApi(query);
+
+  useBookSearchApi();
+
   return (
     <>
       <section>

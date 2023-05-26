@@ -6,13 +6,17 @@ export default function useBookSearchApi(query) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
-  const queryString = `/search?q=${query}`;
-  let booksUrl = baseURL + queryString;
+  let queryString = `/search?q=${query}`;
+
+  let searchUrl = baseURL;
 
   async function fetchBook() {
-    // if (query === "") return false;
+    if(query != '') {
+      searchUrl = baseURL + queryString;
+    }
+    console.log(searchUrl);
     setIsLoading(true);
-    const response = await fetch(booksUrl);
+    const response = await fetch(searchUrl);
     const data = await response.json();
     console.log("response data ", data);
     setData(data);
