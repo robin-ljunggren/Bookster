@@ -2,25 +2,25 @@ import React, { useRef, useState } from "react";
 import "./SiteHeader.css";
 import ButtonComponent from "../abstract/ButtonComponent.js";
 import AuthForm from "../AuthForm/AuthForm";
+import { useAuthState } from "../../context/authContext";
+import { useCurrentUser } from "../../context/userContext";
 
 export default function SiteHeader() {
   // states and username will be passed through useContext instead
-  const [loggedInState, setLoggedInState] = useState(false);
+  const authState = useAuthState();
+  const currentUser = useCurrentUser();
   const dialogRef = useRef();
-  let username = "Bob";
-
-  console.log("render");
 
   return (
     <header className="site-header-container">
       <h1 className="site-header-h1">Booksters Website</h1>
       <section className="site-header-section">
-        <p>
-          {!loggedInState
-            ? `Browsing as guest...`
-            : `Browsing as user ${username}`}
+        <p data-testid="current-user">
+          {!authState
+            ? `Browsing as guest`
+            : `Browsing as user ${currentUser.username}`}
         </p>
-        {!loggedInState ? (
+        {!authState ? (
           <ButtonComponent
             className={"sign-in-btn"}
             testId={"sign-in-btn"}

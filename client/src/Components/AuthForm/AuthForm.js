@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent.js";
 import authService from "../../service/authService.js";
+import { useChangeCurrentUser } from "../../context/userContext.js";
+import { useToggleAuthState } from "../../context/authContext.js";
+import jwtUtil from "../../util/jwtUtil.js";
 
 export default function AuthForm({ dialogRef }) {
   const [formState, setFormState] = useState("login");
@@ -8,6 +11,9 @@ export default function AuthForm({ dialogRef }) {
     username: "",
     password: "",
   });
+
+  const setCurrentUser = useChangeCurrentUser();
+  const setAuthState = useToggleAuthState();
 
   const link =
     formState === "login" ? (
@@ -41,7 +47,12 @@ export default function AuthForm({ dialogRef }) {
         credentials.password
       );
       console.log("resp: ", resp);
-      if (resp === 200) dialogRef.current.close();
+      if (resp.status === 200) {
+        const user = jwtUtil.parsePayload();
+        setCurrentUser(user);
+        setAuthState(true);
+        dialogRef.current.close();
+      }
     } else if (formState === "registration") {
       authService.registration(credentials.username, credentials.password);
     }
@@ -54,6 +65,7 @@ export default function AuthForm({ dialogRef }) {
       </h2>
       <label>Username:</label>
       <input
+        data-testid="auth-input-username"
         value={credentials.username}
         onChange={(e) =>
           setCredentials({ ...credentials, username: e.target.value })
@@ -62,6 +74,7 @@ export default function AuthForm({ dialogRef }) {
       />
       <label>Password:</label>
       <input
+        data-testid="auth-input-password"
         type="password"
         value={credentials.password}
         onChange={(e) =>

@@ -3,26 +3,26 @@ import React, { useContext, useState } from "react";
 const AuthContext = React.createContext();
 const AuthUpdateContext = React.createContext();
 
-export function useLoggedInState() {
+export function useAuthState() {
   return useContext(AuthContext);
 }
 
-export function useLoggedInStateToggle() {
+export function useToggleAuthState() {
   return useContext(AuthUpdateContext);
 }
 
 export default function AuthProvider({ children }) {
-  const [loggedInState, setLoggedInState] = useState(false);
+  const [authState, setAuthState] = useState(false);
 
-  function toggleLoggedInState() {
-    setLoggedInState((prevLoggedInState) => !prevLoggedInState);
+  function toggleAuthState() {
+    setAuthState((prevAuthState) => !prevAuthState);
   }
 
   return (
-    <AuthContext.Provider value={loggedInState}>
-      <AuthUpdateContext value={toggleLoggedInState}>
+    <AuthContext.Provider value={authState}>
+      <AuthUpdateContext.Provider value={toggleAuthState}>
         {children}
-      </AuthUpdateContext>
+      </AuthUpdateContext.Provider>
     </AuthContext.Provider>
   );
 }
