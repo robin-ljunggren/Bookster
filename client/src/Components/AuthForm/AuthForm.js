@@ -49,6 +49,7 @@ export default function AuthForm({ dialogRef }) {
       console.log("resp: ", resp);
       if (resp.status === 200) {
         const user = jwtUtil.parsePayload();
+        console.log("userpayload: ", user);
         setCurrentUser(user);
         setAuthState(true);
         dialogRef.current.close();
