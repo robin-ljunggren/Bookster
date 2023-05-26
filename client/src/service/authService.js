@@ -21,7 +21,7 @@ async function login(username, password) {
   if (response.status === 200)
     memoryService.saveSessionValue("JWT_TOKEN", data.accessToken);
 
-  return response.status;
+  return response;
 }
 
 async function registration({ username, password }) {

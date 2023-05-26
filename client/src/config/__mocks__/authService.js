@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { useChangeCurrentUser } from "../../context/userContext";
 
 function login(username, password) {
   console.log("credentials: ", username, password);
@@ -11,8 +12,8 @@ function login(username, password) {
         "somesecretsareawesomebutpenguinsbeatthemall"
       );
       sessionStorage.setItem("jwt-token", accessToken);
-      console.log("resolve");
-      resolve(username);
+      const response = { user:{username, role: "admin"}, status: 200};
+      resolve(response);
     }
   });
 
