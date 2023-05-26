@@ -1,8 +1,5 @@
-import React from 'react'
+import React from "react";
 
-export default function SearchField(placeholder, onChange) {
-
-  return (
-    <input type="text" placeholder={placeholder} onChange={onChange} />
-  )
+export default function SearchField({ placeholder, onChange }) {
+  return <input type="text" placeholder={placeholder} onChange={onChange} />;
 }
