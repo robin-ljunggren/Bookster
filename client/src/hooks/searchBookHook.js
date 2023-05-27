@@ -6,24 +6,30 @@ export default function useBookSearchApi(query) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
-  let queryString = `/search?q=${query}`;
-
-  let searchUrl = baseURL;
-
-  async function fetchBook() {
-    if(query != '') {
-      searchUrl = baseURL + queryString;
-    }
-    console.log(searchUrl);
-    setIsLoading(true);
-    const response = await fetch(searchUrl);
-    const data = await response.json();
-    console.log("response data ", data);
-    setData(data);
-    setIsLoading(false);
-  }
+  
 
   useEffect(() => {
+
+    async function fetchBook() {
+      let searchUrl;
+      if(query === undefined || query === '') {
+        searchUrl = baseURL; 
+      }else{
+        searchUrl = baseURL + '/search?q=' + query;
+      }
+      setIsLoading(true);
+      const response = await fetch(searchUrl);
+      let data = await response.json();
+      let {books, version} = data;
+      console.log("response data ", data);
+      if(searchUrl === baseURL) {
+        setData(data.books);
+      }else {
+        setData(data);
+      }
+      setIsLoading(false);
+    }
+
     const fetchBookTimeout = setTimeout(() => {
       fetchBook();
     }, 2000);

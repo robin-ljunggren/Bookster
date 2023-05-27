@@ -18,8 +18,6 @@ export default function Books() {
 
   const { isLoading, data } = useBookSearchApi(query);
 
-  useBookSearchApi();
-
   return (
     <>
       <section>
@@ -30,24 +28,29 @@ export default function Books() {
           }}
         />
       </section>
+      {isLoading ? "Loading..." :
       <table>
         <THeadComponent
           col1={"Title"}
+          col2={"Author"}
           col3={"Quantity"}
           col4={"order"}
           col5={"admin"}
         />
         <tbody>
-          {data.map((book) => (
+            {data.map((book) => (
             <TableRowComponent
+              key={crypto.randomUUID()}
               col1={book.title}
+              col2={book.author}
               col3={book.quantity}
               col4={<OrderBook book={book} />}
               col5={"admintools"}
             />
-          ))}
+           ))}
         </tbody>
       </table>
+      }
     </>
   );
 }
