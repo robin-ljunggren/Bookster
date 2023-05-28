@@ -4,6 +4,7 @@ import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import SearchField from "../Components/abstract/SearchField";
 import useBookSearchApi from "../hooks/searchBookHook";
+import './styles/Books.css';
 
 const testBook = [
   {
@@ -16,11 +17,11 @@ const testBook = [
 export default function Books() {
   const [query, setQuery] = useState("");
 
-  const { isLoading, data } = useBookSearchApi(query);
+  const { isLoading, noData ,dataState } = useBookSearchApi(query);
 
   return (
     <>
-      <section>
+      <section className="search-section">
         <SearchField
           placeholder={"Search title/author..."}
           onChange={(e) => {
@@ -28,7 +29,8 @@ export default function Books() {
           }}
         />
       </section>
-      {isLoading ? "Loading..." :
+      {noData ? <p>There is no book with that title or author</p> :
+       isLoading ? "Loading..." :
       <table>
         <THeadComponent
           col1={"Title"}
@@ -38,8 +40,9 @@ export default function Books() {
           col5={"admin"}
         />
         <tbody>
-            {data.map((book) => (
+            {dataState.map((book) => (
             <TableRowComponent
+              className="trow-books"
               key={crypto.randomUUID()}
               col1={book.title}
               col2={book.author}

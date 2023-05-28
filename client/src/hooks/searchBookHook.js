@@ -4,7 +4,8 @@ const baseURL = "http://127.0.0.1:4000/library/books";
 
 export default function useBookSearchApi(query) {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [dataState, setDataState] = useState([]);
+  const [noData, setNoData] = useState(false);
 
   
 
@@ -20,16 +21,22 @@ export default function useBookSearchApi(query) {
       setIsLoading(true);
       
       try {
+        setNoData(false)
         const response = await fetch(searchUrl);
         let data = await response.json();
         let {books, version} = data;
+        console.log("D = ",data, "D.b = ",data.books);
+        if(data.length === 0 && data.books === undefined) {
+          setNoData(true);
+        }else {
 
         if(searchUrl === baseURL) {
-          setData(data.books);
+          setDataState(data.books);
         }else {
-          setData(data);
+          setDataState(data);
         }
         setIsLoading(false);
+        }
       }catch(err) {
         console.log(err);
       }
@@ -42,5 +49,5 @@ export default function useBookSearchApi(query) {
     return () => clearTimeout(fetchBookTimeout);
   }, [query]);
 
-  return { isLoading, data };
+  return { isLoading, noData, dataState };
 }
