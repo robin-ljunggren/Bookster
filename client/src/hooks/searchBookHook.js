@@ -18,16 +18,21 @@ export default function useBookSearchApi(query) {
         searchUrl = baseURL + '/search?q=' + query;
       }
       setIsLoading(true);
-      const response = await fetch(searchUrl);
-      let data = await response.json();
-      let {books, version} = data;
-      console.log("response data ", data);
-      if(searchUrl === baseURL) {
-        setData(data.books);
-      }else {
-        setData(data);
+      
+      try {
+        const response = await fetch(searchUrl);
+        let data = await response.json();
+        let {books, version} = data;
+
+        if(searchUrl === baseURL) {
+          setData(data.books);
+        }else {
+          setData(data);
+        }
+        setIsLoading(false);
+      }catch(err) {
+        console.log(err);
       }
-      setIsLoading(false);
     }
 
     const fetchBookTimeout = setTimeout(() => {
