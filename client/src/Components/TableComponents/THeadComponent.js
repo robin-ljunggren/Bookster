@@ -1,6 +1,6 @@
 import { useAuthState } from "../../context/authContext";
 import { useCurrentUser } from "../../context/userContext";
-import './THeadComponent.css';
+import "./THeadComponent.css";
 
 export default function THeadComponent({ col1, col2, col3, col4, col5 }) {
   const authState = useAuthState();
@@ -12,7 +12,7 @@ export default function THeadComponent({ col1, col2, col3, col4, col5 }) {
         <th>{col2}</th>
         <th>{col3}</th>
         {authState && <th>{col4}</th>}
-        {authState && currentUser.role === "admin" && <th>{col5}</th>}
+        {authState && currentUser.role === "ADMIN" && <th>{col5}</th>}
       </tr>
     </thead>
   );
