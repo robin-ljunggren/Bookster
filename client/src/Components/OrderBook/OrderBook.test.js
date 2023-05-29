@@ -38,3 +38,25 @@ test("Can't increment amount to order more than what's in stock", () => {
   expect(amountInput.value).toBe("1");
   expect(incBtn).toBeDisabled();
 });
+
+test("Dec and inc buttons work as expected", () => {
+  render(
+    <OrderBook
+      book={{
+        title: "Harry Potter",
+        author: "J.K. Rowling",
+        quantity: 1,
+      }}
+    />
+  );
+
+  const incBtn = screen.getByTestId("inc-amount-btn");
+  const decBtn = screen.getByTestId("dec-amount-btn");
+  const amountInput = screen.getByTestId("order-amount-input");
+
+  fireEvent.click(incBtn);
+  fireEvent.click(decBtn);
+
+  expect(amountInput.value).toBe("0");
+  expect(decBtn).toBeDisabled();
+});
