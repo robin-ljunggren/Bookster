@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import OrderBook from "../Components/OrderBook/OrderBook";
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
@@ -8,11 +8,14 @@ import './styles/Books.css';
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
+import PopUpComponent from "../Components/abstract/PopUpComponent";
 
 export default function Books() {
   const currentUser = useCurrentUser();
   const [query, setQuery] = useState("");
   const { isLoading, noData, dataState } = useBookSearchApi(query);
+  const [actionState, setActionState] = useState();
+  const dialogRef = useRef();
 
   return (
     <>
@@ -26,7 +29,7 @@ export default function Books() {
       </section>
       {currentUser.role === "ADMIN" &&
         <div>
-          <ButtonComponent onClick={() => {}} txt={"Add new book"}/>
+          <ButtonComponent onClick={() => setActionState("Add")} txt={"Add new book"}/>
           <NavigationComponent />
         </div>
       }
@@ -50,8 +53,8 @@ export default function Books() {
               col4={book.quantity === 0 ? 'Out of Stock' : <OrderBook book={book} />}
               action={
                 <div>
-                  <ButtonComponent onClick={() => {}} txt={"Edit"}/>
-                  <ButtonComponent onClick={() => {}} txt={"Delete"}/>
+                  <ButtonComponent onClick={() => setActionState("Edit")} txt={"Edit"}/>
+                  <ButtonComponent onClick={() => setActionState("Delete")} txt={"Delete"}/>
                 </div>
               }
             />
@@ -59,6 +62,9 @@ export default function Books() {
         </tbody>
       </table>
       }
+      <dialog dialogRef= {dialogRef}>
+        <PopUpComponent title={actionState} />
+      </dialog>
     </>
   );
 }
