@@ -4,7 +4,6 @@ import authService from "../../service/authService.js";
 import { useChangeCurrentUser } from "../../context/userContext.js";
 import { useToggleAuthState } from "../../context/authContext.js";
 import jwtUtil from "../../util/jwtUtil.js";
-import useLoggedInChecker from "../../service/userService.js";
 
 export default function AuthForm({ dialogRef }) {
   const [formState, setFormState] = useState("login");
