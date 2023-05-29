@@ -4,6 +4,7 @@ import authService from "../../service/authService.js";
 import { useChangeCurrentUser } from "../../context/userContext.js";
 import { useToggleAuthState } from "../../context/authContext.js";
 import jwtUtil from "../../util/jwtUtil.js";
+import useLoggedInChecker from "../../service/userService.js";
 
 export default function AuthForm({ dialogRef }) {
   const [formState, setFormState] = useState("login");
@@ -46,13 +47,16 @@ export default function AuthForm({ dialogRef }) {
         credentials.username,
         credentials.password
       );
-      console.log("resp: ", resp);
+
       if (resp.status === 200) {
-        const user = jwtUtil.parsePayload();
-        console.log("userpayload: ", user);
-        setCurrentUser(user);
+        const { username, role } = jwtUtil.parsePayload(resp.data.accessToken);
+
+        setCurrentUser({ username, role });
         setAuthState(true);
+
         dialogRef.current.close();
+      } else if (resp.status >= 400) {
+        alert(resp.data?.error);
       }
     } else if (formState === "registration") {
       authService.registration(credentials.username, credentials.password);

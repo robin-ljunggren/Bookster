@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import authService from "../service/authService";
 
 const UserContext = React.createContext();
 const UserUpdateContext = React.createContext();
@@ -12,7 +13,9 @@ export function useChangeCurrentUser() {
 }
 
 export default function UserProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState({username:"", role:""});
+  const [currentUser, setCurrentUser] = useState(
+    authService.checkAuth().userDetails
+  );
 
   function changeCurrentUser(newUser) {
     setCurrentUser(newUser);

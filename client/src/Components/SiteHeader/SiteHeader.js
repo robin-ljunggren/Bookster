@@ -2,13 +2,19 @@ import React, { useRef, useState } from "react";
 import "./SiteHeader.css";
 import ButtonComponent from "../abstract/ButtonComponent.js";
 import AuthForm from "../AuthForm/AuthForm";
-import { useAuthState } from "../../context/authContext";
-import { useCurrentUser } from "../../context/userContext";
+import { useAuthState, useToggleAuthState } from "../../context/authContext";
+import {
+  useCurrentUser,
+  useChangeCurrentUser,
+} from "../../context/userContext";
+import memoryService from "../../service/memoryService";
 
 export default function SiteHeader() {
   // states and username will be passed through useContext instead
   const authState = useAuthState();
+  const setAuthState = useToggleAuthState();
   const currentUser = useCurrentUser();
+  const setCurrentUser = useChangeCurrentUser();
   const dialogRef = useRef();
 
   return (
@@ -33,7 +39,11 @@ export default function SiteHeader() {
           <ButtonComponent
             className={"sign-out-btn"}
             testId={"sign-out-btn"}
-            onClick={() => {}}
+            onClick={() => {
+              memoryService.removeSessionValue("JWT_TOKEN");
+              setAuthState(false);
+              setCurrentUser({ username: "", role: "" });
+            }}
             txt={"Sign out"}
           />
         )}
