@@ -2,41 +2,38 @@ import { useState, useEffect } from "react";
 
 const baseURL = "http://127.0.0.1:4000/library/books";
 
-export default function useBookSearchApi(query) {
+export default function useBookSearchApi(query, update, setUpdate) {
   const [isLoading, setIsLoading] = useState(false);
   const [dataState, setDataState] = useState([]);
   const [noData, setNoData] = useState(false);
 
-  
-
   useEffect(() => {
-
     async function fetchBook() {
       let searchUrl;
-      if(query === undefined || query === '') {
-        searchUrl = baseURL; 
-      }else{
-        searchUrl = baseURL + '/search?q=' + query;
+      if (query === undefined || query === "") {
+        searchUrl = baseURL;
+      } else {
+        searchUrl = baseURL + "/search?q=" + query;
       }
       setIsLoading(true);
-      
+
       try {
-        setNoData(false)
+        setNoData(false);
         const response = await fetch(searchUrl);
         let data = await response.json();
-        let {books, version} = data;
-        if(data.length === 0 && data.books === undefined) {
+        let { books, version } = data;
+        if (data.length === 0 && data.books === undefined) {
           setNoData(true);
-        }else {
-
-        if(searchUrl === baseURL) {
-          setDataState(data.books);
-        }else {
-          setDataState(data);
+        } else {
+          if (searchUrl === baseURL) {
+            setDataState(data.books);
+          } else {
+            setDataState(data);
+          }
+          setIsLoading(false);
         }
-        setIsLoading(false);
-        }
-      }catch(err) {
+        setUpdate(false);
+      } catch (err) {
         console.log(err);
       }
     }
@@ -46,7 +43,7 @@ export default function useBookSearchApi(query) {
     }, 2000);
 
     return () => clearTimeout(fetchBookTimeout);
-  }, [query]);
+  }, [query, update]);
 
   return { isLoading, noData, dataState };
 }
