@@ -3,13 +3,11 @@ import "./App.css";
 import SiteHeader from "./Components/SiteHeader/SiteHeader.js";
 import Books from "./pages/Books";
 
-function App() {
+export default function App() {
   return (
+
     <>
       <SiteHeader />
       <Books />
     </>
   );
-}
-
-export default App;
