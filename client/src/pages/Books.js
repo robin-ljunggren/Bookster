@@ -7,7 +7,7 @@ import useBookSearchApi from "../hooks/searchBookHook";
 import './styles/Books.css';
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
-
+import ButtonComponent from "../Components/abstract/ButtonComponent";
 
 export default function Books() {
   const currentUser = useCurrentUser();
@@ -25,7 +25,10 @@ export default function Books() {
         />
       </section>
       {currentUser.role === "ADMIN" &&
-        <NavigationComponent />
+        <div>
+          <ButtonComponent onClick={() => {}} txt={"Add new book"}/>
+          <NavigationComponent />
+        </div>
       }
       {noData ? <p>There is no book with that title or author</p> :
        isLoading ? "Loading..." :
@@ -34,8 +37,8 @@ export default function Books() {
           col1={"Title"}
           col2={"Author"}
           col3={"Quantity"}
-          col4={"order"}
-          action={"action"}
+          col4={"Order"}
+          action={"Action"}
         />
         <tbody>
             {dataState.map((book) => (
@@ -45,7 +48,12 @@ export default function Books() {
               col2={book.author}
               col3={book.quantity}
               col4={book.quantity === 0 ? 'Out of Stock' : <OrderBook book={book} />}
-              action={"action"}
+              action={
+                <div>
+                  <ButtonComponent onClick={() => {}} txt={"Edit"}/>
+                  <ButtonComponent onClick={() => {}} txt={"Delete"}/>
+                </div>
+              }
             />
            ))}
         </tbody>

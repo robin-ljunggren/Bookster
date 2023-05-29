@@ -7,7 +7,7 @@ import './styles/Users.css';
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
 import { Navigate } from "react-router-dom";
-import { useState } from "react";
+import ButtonComponent from "../Components/abstract/ButtonComponent";
 
 
 export default function Users() {
@@ -33,7 +33,7 @@ export default function Users() {
           col1={"Username"}
           col2={"Role"}
           col3={"Purchases"}
-          action={"action"}
+          action={"Action"}
         />
         <tbody>
             {dataState.map((user) => (
@@ -42,7 +42,12 @@ export default function Users() {
               col1={user.username}
               col2={user.role}
               col3={user.purchases? user.purchases.length : "0"}
-              action={"action"}
+              action={
+                <div>
+                  <ButtonComponent onClick={() => {}} txt={"Promote"} isDisabled={user.role === "ADMIN"}/>
+                  <ButtonComponent onClick={() => {}} txt={"Delete"}/>
+                </div>
+              }
             />
            ))}
         </tbody>
