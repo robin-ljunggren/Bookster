@@ -16,7 +16,7 @@ const purchaseBook = (username, title, quantity) => {
     throw error;
   }
 
-  userRepository.addPurchase(username, book);
+  userRepository.addPurchase(username, { ...book, quantity: quantity });
   return bookRepository.patchBook({...book, quantity: book.quantity - quantity});
 }
 
