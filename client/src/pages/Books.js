@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderBook from "../Components/OrderBook/OrderBook";
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
@@ -7,20 +7,19 @@ import useBookSearchApi from "../hooks/searchBookHook";
 import "./styles/Books.css";
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
-
-const testBook = [
-  {
-    title: "Harry Potter",
-    author: "J.K. Rowling",
-    quantity: 4,
-  },
-];
+import fetchService from "../service/fetchService";
 
 export default function Books() {
   const currentUser = useCurrentUser();
   const [query, setQuery] = useState("");
+  const [allBooks, setAllBooks] = useState([]);
 
-  const { isLoading, noData, dataState } = useBookSearchApi(query);
+  const { isLoading, noData } = useBookSearchApi(query, setAllBooks);
+
+  useEffect(() => {
+    if (query === "")
+      fetchService.getAllBooks().then((result) => setAllBooks(result.books));
+  }, [query]);
 
   return (
     <>
@@ -47,7 +46,7 @@ export default function Books() {
             action={"action"}
           />
           <tbody>
-            {dataState.map((book) => (
+            {allBooks.map((book) => (
               <TableRowComponent
                 key={crypto.randomUUID()}
                 col1={book.title}
