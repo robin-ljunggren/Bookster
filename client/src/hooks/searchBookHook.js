@@ -25,7 +25,6 @@ export default function useBookSearchApi(query) {
         const response = await fetch(searchUrl);
         let data = await response.json();
         let {books, version} = data;
-        console.log("D = ",data, "D.b = ",data.books);
         if(data.length === 0 && data.books === undefined) {
           setNoData(true);
         }else {

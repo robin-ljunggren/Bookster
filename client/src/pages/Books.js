@@ -42,12 +42,11 @@ export default function Books() {
         <tbody>
             {dataState.map((book) => (
             <TableRowComponent
-              className="trow-books"
               key={crypto.randomUUID()}
               col1={book.title}
               col2={book.author}
               col3={book.quantity}
-              col4={<OrderBook book={book} />}
+              col4={book.quantity === 0 ? 'Out of Stock' : <OrderBook book={book} />}
               col5={"admintools"}
             />
            ))}
