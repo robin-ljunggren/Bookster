@@ -3,26 +3,31 @@ import OrderBook from "../Components/OrderBook/OrderBook";
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import SearchField from "../Components/abstract/SearchField";
-import useBookSearchApi from "../hooks/searchBookHook";
-import './styles/Books.css';
+import useUserSearchApi from "../hooks/searchUsersHook";
+import './styles/Users.css';
+import ButtonComponent from "../Components/abstract/ButtonComponent";
+import { useCurrentUser } from "../context/userContext";
 
 
-export default function Books() {
+export default function Users() {
   const [query, setQuery] = useState("");
-
-  const { isLoading, noData ,dataState } = useBookSearchApi(query);
-
+  useCurrentUser();
+  const { isLoading, noData ,dataState } = useUserSearchApi(query);
 
   return (
     <>
       <section className="search-section">
         <SearchField
-          placeholder={"Search title/author..."}
+          placeholder={"Search user..."}
           onChange={(e) => {
             setQuery(e.target.value);
           }}
         />
       </section>
+      <aside >
+        <ButtonComponent txt={'Books'}/>
+        <ButtonComponent txt={'User'} />
+      </aside>
       {noData ? <p>There is no book with that title or author</p> :
        isLoading ? "Loading..." :
       <table>

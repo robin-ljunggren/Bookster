@@ -1,28 +1,52 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from "react";
 
-const baseURL = "http://127.0.0.1:4000/library";
+const baseURL = "http://127.0.0.1:4000/admin/users";
 
 export default function useUserSearchApi(query) {
-
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState();
+  const [dataState, setDataState] = useState([]);
+  const [noData, setNoData] = useState(false);
 
-  let userUrl = baseURL + "/books/seach?q=";
-
-  async function fetchUser() {
-    if(query === '') return false;
-    setIsLoading(true);
-    const response = await fetch(baseURL + userUrl + query);
-    setData(await response.json());
-    setIsLoading(false);
-  }
+  
 
   useEffect(() => {
-    const fetchUserTimeout = setTimeout(() => {fetchUser()}, 2000);
 
-    return () => clearTimeout(fetchUserTimeout);
+    async function fetchUser() {
+      let searchUrl;
+      if(query === undefined || query === '') {
+        searchUrl = baseURL; 
+      }else{
+        searchUrl = baseURL + '/search?q=' + query;
+      }
+      setIsLoading(true);
+      
+      try {
+        setNoData(false)
+        const response = await fetch(searchUrl);
+        let data = await response.json();
+        let {books, version} = data;
+        if(data.length === 0 && data.books === undefined) {
+          setNoData(true);
+        }else {
+
+        if(searchUrl === baseURL) {
+          setDataState(data.books);
+        }else {
+          setDataState(data);
+        }
+        setIsLoading(false);
+        }
+      }catch(err) {
+        console.log(err);
+      }
+    }
+
+    const fetchBookTimeout = setTimeout(() => {
+      fetchUser();
+    }, 2000);
+
+    return () => clearTimeout(fetchBookTimeout);
   }, [query]);
 
- 
-  return {isLoading, data};
+  return { isLoading, noData, dataState };
 }
