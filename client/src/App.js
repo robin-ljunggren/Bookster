@@ -1,11 +1,15 @@
-import React from 'react';
-import './App.css';
-import SiteHeader from './Components/SiteHeader/SiteHeader.js';
+import React from "react";
+import "./App.css";
+import SiteHeader from "./Components/SiteHeader/SiteHeader.js";
+import Books from "./pages/Books";
 
 function App() {
-  return(
-    <SiteHeader/>
-  )
+  return (
+    <>
+      <SiteHeader />
+      <Books />
+    </>
+  );
 }
 
 export default App;
