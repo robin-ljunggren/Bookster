@@ -51,6 +51,7 @@ export default function OrderBook({ book }) {
         testId={"order-btn"}
         onClick={() => {}}
         txt={"Order"}
+        isDisabled={bookQty === 0}
       />
     </div>
   );
