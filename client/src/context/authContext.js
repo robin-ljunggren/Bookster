@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import authService from "../service/authService";
 
 const AuthContext = React.createContext();
 const AuthUpdateContext = React.createContext();
@@ -12,7 +13,7 @@ export function useToggleAuthState() {
 }
 
 export default function AuthProvider({ children }) {
-  const [authState, setAuthState] = useState(false);
+  const [authState, setAuthState] = useState(authService.checkAuth().isValid);
 
   function toggleAuthState() {
     setAuthState((prevAuthState) => !prevAuthState);

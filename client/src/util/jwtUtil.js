@@ -1,11 +1,18 @@
 import memoryService from "../service/memoryService";
 
-function parsePayload () {
-    const token = memoryService.getSessionValue("JWT_TOKEN");
-    const payload = token.split(".")[1];
+function parsePayload(token) {
+  const payload = token.split(".")[1];
 
-    return JSON.parse(atob(payload));
+  return JSON.parse(atob(payload));
 }
 
-const jwtUtil = { parsePayload };
+/** Takes the expiration time from a payload and checks if it is ahead of now */
+function checkTokenValidity(payload) {
+  const { exp } = payload;
+  const now = Math.floor(Date.now() / 1000);
+
+  return exp - now > 0;
+}
+
+const jwtUtil = { parsePayload, checkTokenValidity };
 export default jwtUtil;
