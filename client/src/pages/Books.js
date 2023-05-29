@@ -5,13 +5,14 @@ import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import SearchField from "../Components/abstract/SearchField";
 import useBookSearchApi from "../hooks/searchBookHook";
 import './styles/Books.css';
+import { useCurrentUser } from "../context/userContext";
+import NavigationComponent from "../Components/abstract/NavigationComponent";
 
 
 export default function Books() {
+  const currentUser = useCurrentUser();
   const [query, setQuery] = useState("");
-
-  const { isLoading, noData ,dataState } = useBookSearchApi(query);
-
+  const { isLoading, noData, dataState } = useBookSearchApi(query);
 
   return (
     <>
@@ -23,6 +24,9 @@ export default function Books() {
           }}
         />
       </section>
+      {currentUser.role === "ADMIN" &&
+        <NavigationComponent />
+      }
       {noData ? <p>There is no book with that title or author</p> :
        isLoading ? "Loading..." :
       <table>
@@ -31,7 +35,7 @@ export default function Books() {
           col2={"Author"}
           col3={"Quantity"}
           col4={"order"}
-          col5={"admin"}
+          action={"action"}
         />
         <tbody>
             {dataState.map((book) => (
@@ -41,7 +45,7 @@ export default function Books() {
               col2={book.author}
               col3={book.quantity}
               col4={book.quantity === 0 ? 'Out of Stock' : <OrderBook book={book} />}
-              col5={"admintools"}
+              action={"action"}
             />
            ))}
         </tbody>
