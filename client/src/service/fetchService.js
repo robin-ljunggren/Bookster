@@ -45,5 +45,84 @@ async function buyBook(bookToOrder) {
   });
 }
 
-const fetchService = { getAllBooks, getAllUsers, buyBook };
+async function addBook(book) {
+  // POST /admin/books { "author", "title", "quantity"}
+  const endpoint = "/admin/books";
+  let headersList = {
+    Accept: "*/*",
+    Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
+    "Content-Type": "application/json",
+  };
+
+  let bodyContent = JSON.stringify({
+    title: book.title,
+    author: book.author,
+    quantity: book.quantity,
+  });
+
+  return await fetchAPI(endpoint, {
+    method: "POST",
+    body: bodyContent,
+    headers: headersList,
+  });
+}
+
+async function updateBook(preivousTitle, book) {
+  // PUT /admin/books { "previous", "current" }
+  const endpoint = "/admin/books";
+  let headersList = {
+    Accept: "*/*",
+    Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
+    "Content-Type": "application/json",
+  };
+
+  let bodyContent = JSON.stringify({
+    preivous: { title: preivousTitle },
+    current: {
+      title: book.title,
+      author: book.author,
+      quantity: book.quantity,
+    },
+  });
+
+  return await fetchAPI(endpoint, {
+    method: "PUT",
+    body: bodyContent,
+    headers: headersList,
+  });
+}
+
+async function deleteBook(book) {
+  // DELETE /admin/books { "title" }
+  const endpoint = "/admin/books";
+  let headersList = {
+    Accept: "*/*",
+    Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
+    "Content-Type": "application/json",
+  };
+
+  let bodyContent = JSON.stringify({ title: book.title });
+
+  return await fetchAPI(endpoint, {
+    method: "DELETE",
+    body: bodyContent,
+    headers: headersList,
+  });
+}
+
+async function alterUser() {
+  const endpoint = "/admin/users";
+  let headersList = {
+    Accept: "*/*",
+    Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
+    "Content-Type": "application/json",
+  };
+
+  return await fetchAPI(endpoint, { headers: headersList });
+}
+// PUT /admin/users {"username"}
+
+// DELETE /admin/users {"username"}
+
+const fetchService = { getAllBooks, getAllUsers, buyBook, addBook, updateBook };
 export default fetchService;

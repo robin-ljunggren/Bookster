@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent";
-import memoryService from "../../service/memoryService";
 import fetchService from "../../service/fetchService";
 
 export default function OrderBook({ book, setAllBooks, allBooks }) {
