@@ -6,9 +6,11 @@ export default function ButtonComponent({
   onClick,
   txt,
   isDisabled = false,
+  type = "button",
 }) {
   return (
     <button
+      type={type}
       className={`btn ${className}`}
       data-testid={testId}
       onClick={onClick}

@@ -57,8 +57,17 @@ export default function AuthForm({ dialogRef }) {
       } else if (resp.status >= 400) {
         alert(resp.data?.error);
       }
-    } else if (formState === "registration") {
-      authService.registration(credentials.username, credentials.password);
+    } else if (formState === "register") {
+      let resp = await authService.registration(
+        credentials.username,
+        credentials.password
+      );
+      if (resp.status === 201) {
+        alert("Successfully registered!");
+        setFormState("login");
+      } else if (resp.status >= 400) {
+        alert(resp.data?.error);
+      }
     }
   }
 
@@ -89,15 +98,19 @@ export default function AuthForm({ dialogRef }) {
       {link}
       {formState === "login" ? (
         <ButtonComponent
+          type="submit"
           className={"login-btn"}
           testId={"login-btn"}
           txt={"Sign in"}
+          // onClick={handleSubmit}
         />
       ) : (
         <ButtonComponent
           className={"register-btn"}
           testId={"register-btn"}
           txt={"Register new account"}
+          // onClick={handleSubmit}
+          type="submit"
         />
       )}
       <button
