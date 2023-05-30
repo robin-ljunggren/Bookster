@@ -3,32 +3,33 @@ import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import SearchField from "../Components/abstract/SearchField";
 import useUserSearchApi from "../hooks/searchUserHook";
-import './styles/Users.css';
+import "./styles/Users.css";
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
 import { Navigate } from "react-router-dom";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect} from "react";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
-
+import fetchService from "../service/fetchService";
 
 export default function Users() {
   const currentUser = useCurrentUser();
+  const [allUsers, setAllUsers] = useState([]);
   const { isLoading ,dataState } = useUserSearchApi();
   const promoteDeleteRef = useRef();
   const [actionState, setActionState] = useState({method: ''});
   const [userContent, setUserContent] = useState({username: ''});
 
-  if(currentUser.role !== "ADMIN") {
-    return <Navigate to={"/"}/>
+
+  useEffect(() => {
+    fetchService.getAllUsers().then((result) => setAllUsers(result.users));
+  }, []);
+
+  if (currentUser.role !== "ADMIN") {
+    return <Navigate to={"/"} />;
   }
   return (
     <>
-      <section className="search-section">
-        <SearchField
-          placeholder={"Search user..."}
-        />
-      </section>
       {currentUser.role === "ADMIN" &&
         <NavigationComponent />
       }

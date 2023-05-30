@@ -4,12 +4,14 @@ import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import SearchField from "../Components/abstract/SearchField";
 import useBookSearchApi from "../hooks/searchBookHook";
-import './styles/Books.css';
+import "./styles/Books.css";
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
 import EditAddPopUp from "../Components/abstract/EditAddPopUp";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
+import fetchService from "../service/fetchService";
+
 
 export default function Books() {
   const currentUser = useCurrentUser();
@@ -19,6 +21,14 @@ export default function Books() {
   const [bookContent, setBookContent] = useState({title: '', author: '', qty: ''});
   const promoteDeleteRef = useRef();
   const editAddRef = useRef();
+  const [allBooks, setAllBooks] = useState([]);
+
+  const { isLoading, noData } = useBookSearchApi(query, setAllBooks);
+
+  useEffect(() => {
+    if (query === "")
+      fetchService.getAllBooks().then((result) => setAllBooks(result.books));
+  }, [query]);
 
   return (
     <>
