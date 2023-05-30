@@ -11,6 +11,7 @@ import ButtonComponent from "../Components/abstract/ButtonComponent";
 import EditAddPopUp from "../Components/abstract/EditAddPopUp";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
+import useShortPoll from "../hooks/shortPollHook";
 
 export default function Books() {
   const currentUser = useCurrentUser();
@@ -20,53 +21,10 @@ export default function Books() {
   const promoteDeleteRef = useRef();
   const editAddRef = useRef();
   const [allBooks, setAllBooks] = useState({});
-  const { isLoading, noData } = useBookSearchApi(query, setAllBooks);
-  const [runtime, setRuntime] = useState(0);
-  const [timeoutMs, setTimeoutMs] = useState(2000);
-  const [miss, setMiss] = useState({count: 0, short: 4, medium: 7, long: 10});
-  const [multiplier, setMultiplier] = useState({short: 1200, medium: 1600, long: 2000});
-  
+  const { isSearching, noData } = useBookSearchApi(query, setAllBooks);
+  const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
 
-  async function shortPolling() {
-    if(miss.count < 10) {
-      console.log("miss count: ", miss.count)
-      setMiss({...miss, count: miss.count + 1})
-    }
-
-    const result = await fetchService.getAllBooks();
-
-    console.log("allBooks.V: ",allBooks.version);
-    console.log("result.V: ",result.version);
-
-    if(allBooks.version !== result.version) {
-      setMiss({...miss, count: miss.count + 0});
-      setAllBooks(result);
-    }
-
-    console.log('timeout: ', timeoutMs)
-    if(miss.count < miss.short) {
-      console.log('short');
-      setTimeoutMs(timeoutMs => timeoutMs);
-    }else if(miss.count > miss.short && miss.count < miss.medium) {
-      console.log('medium')
-      setTimeoutMs(timeoutMs => timeoutMs + (miss.count * multiplier.medium))
-    }else if(miss.count > miss.medium && miss.count < miss.long){
-      console.log('long')
-      setTimeoutMs(timeoutMs => timeoutMs + (miss.count * multiplier.long))
-    }
-  }
-
-  
-
-  useEffect(() => {
-    if(query === '');
-    let shortPollTimeout = setTimeout(() => {
-      shortPolling(); 
-      setRuntime(runtime => runtime + 1)
-      return () => clearTimeout(shortPollTimeout)
-    }, timeoutMs)
-    
-  }, [query, runtime]);
+  console.log(timeoutMs);
 
   return (
     <>
@@ -92,8 +50,8 @@ export default function Books() {
       )}
       {noData ? (
         <p>There is no book with that title or author</p>
-      ) : isLoading ? (
-        "Loading..."
+      ) : isSearching ? (
+        "Searching after books..."
       ) : (
         <table>
           <THeadComponent
