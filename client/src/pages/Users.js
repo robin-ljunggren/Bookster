@@ -7,12 +7,19 @@ import "./styles/Users.css";
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
 import { Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import ButtonComponent from "../Components/abstract/ButtonComponent";
+import { useRef, useState, useEffect} from "react";
+import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
 
 export default function Users() {
   const currentUser = useCurrentUser();
   const [allUsers, setAllUsers] = useState([]);
+  const { isLoading ,dataState } = useUserSearchApi();
+  const promoteDeleteRef = useRef();
+  const [actionState, setActionState] = useState({method: ''});
+  const [userContent, setUserContent] = useState({username: ''});
+
 
   useEffect(() => {
     fetchService.getAllUsers().then((result) => setAllUsers(result.users));
@@ -23,30 +30,53 @@ export default function Users() {
   }
   return (
     <>
-      {currentUser.role === "ADMIN" && <NavigationComponent />}
-      {allUsers.length <= 0 ? (
-        "Loading..."
-      ) : (
-        <table>
-          <THeadComponent
-            col1={"Username"}
-            col2={"Role"}
-            col3={"Purchases"}
-            action={"action"}
-          />
-          <tbody>
-            {allUsers.map((user) => (
-              <TableRowComponent
-                key={crypto.randomUUID()}
-                col1={user.username}
-                col2={user.role}
-                col3={user.purchases ? user.purchases.length : "0"}
-                action={"action"}
-              />
-            ))}
-          </tbody>
-        </table>
-      )}
+      {currentUser.role === "ADMIN" &&
+        <NavigationComponent />
+      }
+      {isLoading ? "Loading..." :
+      <table>
+        <THeadComponent
+          col1={"Username"}
+          col2={"Role"}
+          col3={"Purchases"}
+          action={"Action"}
+        />
+        <tbody>
+            {dataState.map((user) => (
+            <TableRowComponent
+              key={crypto.randomUUID()}
+              col1={user.username}
+              col2={user.role}
+              col3={user.purchases? user.purchases.length : "0"}
+              action={
+                <div>
+                  <ButtonComponent 
+                    onClick={() => {
+                      setActionState({method: "Promote"}); 
+                      setUserContent({username: user.username}); 
+                      promoteDeleteRef.current.showModal()
+                    }} 
+                    isDisabled={user.role === "ADMIN"} 
+                    txt={'Promote'}
+                    />
+                  <ButtonComponent 
+                    onClick={() => {
+                      setActionState({method: "Delete"}); 
+                      setUserContent({username: user.username}); 
+                      promoteDeleteRef.current.showModal()
+                    }} 
+                    txt={"Delete"}
+                  />
+                </div>
+              }
+            />
+           ))}
+        </tbody>
+      </table>
+      }
+      <dialog ref={promoteDeleteRef}>
+        <PromoteDeletePopUp promoteDeleteRef={promoteDeleteRef} method={actionState.method} pageState={'users'} username={userContent.username}/>
+      </dialog>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import "./SiteHeader.css";
 import ButtonComponent from "../abstract/ButtonComponent.js";
 import AuthForm from "../AuthForm/AuthForm";
@@ -49,7 +49,7 @@ export default function SiteHeader() {
         )}
       </section>
       <dialog ref={dialogRef}>
-        <AuthForm dialogRef={dialogRef} />
+        <AuthForm dialogRef={dialogRef}/>
       </dialog>
     </header>
   );
