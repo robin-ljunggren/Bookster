@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ButtonComponent from './ButtonComponent'
 
-export default function booksPopUp({
+export default function EditAddPopUp({
     editAddRef,
     method, 
     title, 
