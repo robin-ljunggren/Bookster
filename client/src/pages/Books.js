@@ -20,13 +20,16 @@ export default function Books() {
   const [bookContent, setBookContent] = useState({});
   const promoteDeleteRef = useRef();
   const editAddRef = useRef();
-  const [allBooks, setAllBooks] = useState([]);
+  const [allBooks, setAllBooks] = useState({});
 
   const { isLoading, noData } = useBookSearchApi(query, setAllBooks);
 
   useEffect(() => {
     if (query === "")
-      fetchService.getAllBooks().then((result) => setAllBooks(result.books));
+      fetchService.getAllBooks().then((result) => {
+        console.log("allBooks: ", result);
+        setAllBooks(result);
+      });
   }, [query]);
 
   return (
@@ -65,41 +68,42 @@ export default function Books() {
             action={"Action"}
           />
           <tbody>
-            {allBooks.map((book) => (
-              <TableRowComponent
-                key={crypto.randomUUID()}
-                col1={book.title}
-                col2={book.author}
-                col3={book.quantity}
-                col4={
-                  book.quantity === 0 ? (
-                    "Out of Stock"
-                  ) : (
-                    <OrderBook book={book} />
-                  )
-                }
-                action={
-                  <div>
-                    <ButtonComponent
-                      onClick={() => {
-                        setActionState({ method: "Edit" });
-                        editAddRef.current.showModal();
-                        setBookContent(book);
-                      }}
-                      txt={"Edit"}
-                    />
-                    <ButtonComponent
-                      onClick={() => {
-                        setActionState({ method: "Delete" });
-                        setBookContent(book);
-                        promoteDeleteRef.current.showModal();
-                      }}
-                      txt={"Delete"}
-                    />
-                  </div>
-                }
-              />
-            ))}
+            {allBooks.books &&
+              allBooks.books.map((book) => (
+                <TableRowComponent
+                  key={crypto.randomUUID()}
+                  col1={book.title}
+                  col2={book.author}
+                  col3={book.quantity}
+                  col4={
+                    book.quantity === 0 ? (
+                      "Out of Stock"
+                    ) : (
+                      <OrderBook book={book} />
+                    )
+                  }
+                  action={
+                    <div>
+                      <ButtonComponent
+                        onClick={() => {
+                          setActionState({ method: "Edit" });
+                          editAddRef.current.showModal();
+                          setBookContent(book);
+                        }}
+                        txt={"Edit"}
+                      />
+                      <ButtonComponent
+                        onClick={() => {
+                          setActionState({ method: "Delete" });
+                          setBookContent(book);
+                          promoteDeleteRef.current.showModal();
+                        }}
+                        txt={"Delete"}
+                      />
+                    </div>
+                  }
+                />
+              ))}
           </tbody>
         </table>
       )}

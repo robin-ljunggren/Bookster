@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent";
 import memoryService from "../../service/memoryService";
+import fetchService from "../../service/fetchService";
 
 export default function OrderBook({ book, setUpdate }) {
   const bookQty = book.quantity;
@@ -10,26 +11,8 @@ export default function OrderBook({ book, setUpdate }) {
   });
 
   async function handleOrder() {
-    let headersList = {
-      Accept: "*/*",
-      Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
-      "Content-Type": "application/json",
-    };
-
-    let bodyContent = JSON.stringify({
-      title: bookToOrder.title,
-      quantity: bookToOrder.quantity,
-    });
-
-    let response = await fetch("http://127.0.0.1:4000/library/user/books", {
-      method: "POST",
-      body: bodyContent,
-      headers: headersList,
-    });
-
-    let data = await response.json();
-    console.log(data);
-    setUpdate("");
+    const response = await fetchService.buyBook(bookToOrder);
+    console.log("buy: ", response);
     setBookToOrder({ ...bookToOrder, quantity: 0 });
   }
 
