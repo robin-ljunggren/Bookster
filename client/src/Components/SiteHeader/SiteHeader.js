@@ -49,7 +49,7 @@ export default function SiteHeader() {
         )}
       </section>
       <dialog ref={dialogRef}>
-        <AuthForm dialogRef={dialogRef} />
+        <AuthForm dialogRef={dialogRef}/>
       </dialog>
     </header>
   );

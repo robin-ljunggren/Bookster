@@ -8,14 +8,17 @@ import './styles/Books.css';
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
-import PopUpComponent from "../Components/abstract/PopUpComponent";
+import EditAddPopUp from "../Components/abstract/EditAddPopUp";
+import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
 
 export default function Books() {
   const currentUser = useCurrentUser();
   const [query, setQuery] = useState("");
   const { isLoading, noData, dataState } = useBookSearchApi(query);
-  const [actionState, setActionState] = useState();
-  const dialogRef = useRef();
+  const [actionState, setActionState] = useState({method: ''});
+  const [bookContent, setBookContent] = useState({title: '', author: '', qty: ''});
+  const promoteDeleteRef = useRef();
+  const editAddRef = useRef();
 
   return (
     <>
@@ -29,7 +32,7 @@ export default function Books() {
       </section>
       {currentUser.role === "ADMIN" &&
         <div>
-          <ButtonComponent onClick={() => setActionState("Add")} txt={"Add new book"}/>
+          <ButtonComponent onClick={() => {setActionState({method: "Add"}); editAddRef.current.showModal()}} txt={"Add new book"}/>
           <NavigationComponent />
         </div>
       }
@@ -53,8 +56,17 @@ export default function Books() {
               col4={book.quantity === 0 ? 'Out of Stock' : <OrderBook book={book} />}
               action={
                 <div>
-                  <ButtonComponent onClick={() => setActionState("Edit")} txt={"Edit"}/>
-                  <ButtonComponent onClick={() => setActionState("Delete")} txt={"Delete"}/>
+                  <ButtonComponent 
+                    onClick={() => {setActionState({method: "Edit"}); 
+                      editAddRef.current.showModal(); 
+                      setBookContent({title: book.title, author: book.author, qty: book.quantity})
+                    }}
+                    txt={"Edit"}/>
+                  <ButtonComponent 
+                    onClick={() => {setActionState({method: "Delete"}); setBookContent({title: book.title,author: '', qty: ''})
+                      promoteDeleteRef.current.showModal()
+                    }} 
+                    txt={"Delete"}/>
                 </div>
               }
             />
@@ -62,8 +74,17 @@ export default function Books() {
         </tbody>
       </table>
       }
-      <dialog dialogRef= {dialogRef}>
-        <PopUpComponent title={actionState} />
+      <dialog ref={editAddRef}>
+        <EditAddPopUp
+          editAddRef={editAddRef} 
+          method={actionState.method}
+          title={bookContent.title}
+          author={bookContent.author}
+          qty={bookContent.qty} 
+          />
+      </dialog>
+      <dialog ref={promoteDeleteRef}>
+        <PromoteDeletePopUp promoteDeleteRef={promoteDeleteRef} pageState={'books'} method={actionState.method} title={bookContent.title}/>
       </dialog>
     </>
   );

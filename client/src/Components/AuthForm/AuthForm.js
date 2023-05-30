@@ -103,7 +103,8 @@ export default function AuthForm({ dialogRef }) {
       <button
         type="reset"
         className="btn guest-btn"
-        onClick={() => dialogRef.current.close()}>
+        onClick={() => dialogRef.current.close()}
+        >
         Proceed as guest
       </button>
     </form>
