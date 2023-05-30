@@ -1,0 +1,53 @@
+.form-header {
+    background-color: rgb(161, 161, 161);
+    height: 3em;
+    width: 15em;
+    text-align: center;
+    line-height: 3em;
+}
+
+.username-header {
+    display: block;
+    margin-left: 1em;
+    font-weight: bold;
+}
+
+.username-box, .password-box {
+    margin-left: .5em;
+    margin-top: .5em;
+    padding: .2em;
+}
+
+.password-header {
+    display: block;
+    margin-left: 1em;
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+.login-btn, .register-btn {
+    background-color: rgb(161, 161, 161);
+    color: white;
+    padding: .7em;
+    margin-left: 1em;
+    font-weight: bold;
+    border-radius: 8%;
+}
+
+.btn-guest-btn {
+    background-color: white;
+    padding: .7em;
+    margin-left: 2em;
+    font-weight: bold;
+    border-radius: 8%;
+}
+
+.login\2fregister-span {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.signup-styling, .signin-styling {
+    margin-left: 1em;
+}
+

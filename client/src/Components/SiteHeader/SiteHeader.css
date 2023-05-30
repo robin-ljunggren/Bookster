@@ -17,3 +17,7 @@
   font-size: 1.6rem;
   margin-bottom: 0.5em;
 }
+
+.auth-form-dialog {
+  background-color: rgb(234, 230, 230);
+}

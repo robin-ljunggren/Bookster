@@ -56,7 +56,7 @@ export default function Books() {
       ) : isLoading ? (
         "Loading..."
       ) : (
-        <table>
+        <table className="table-styling">
           <THeadComponent
             col1={"Title"}
             col2={"Author"}

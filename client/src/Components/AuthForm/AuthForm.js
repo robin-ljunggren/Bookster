@@ -4,6 +4,7 @@ import authService from "../../service/authService.js";
 import { useChangeCurrentUser } from "../../context/userContext.js";
 import { useToggleAuthState } from "../../context/authContext.js";
 import jwtUtil from "../../util/jwtUtil.js";
+import "./AuthForm.css";
 
 export default function AuthForm({ dialogRef }) {
   const [formState, setFormState] = useState("login");
@@ -17,7 +18,7 @@ export default function AuthForm({ dialogRef }) {
 
   const link =
     formState === "login" ? (
-      <p>
+      <p className="signup-styling">
         No account? Sign up{" "}
         <span
           data-testid="toggle-form-span"
@@ -27,7 +28,7 @@ export default function AuthForm({ dialogRef }) {
         </span>
       </p>
     ) : (
-      <p>
+      <p className="signin-styling">
         Already have an account? Sign in{" "}
         <span
           data-testid="toggle-form-span"
@@ -72,12 +73,12 @@ export default function AuthForm({ dialogRef }) {
   }
 
   return (
-    <form data-testid="auth-form" onSubmit={handleSubmit}>
+    <form className="auth-form" data-testid="auth-form" onSubmit={handleSubmit}>
       <h2 className="form-header" data-testid="auth-form-title">
         {formState === "login" ? "Sign in" : "Register"}
       </h2>
-      <label>Username:</label>
-      <input
+      <label className="username-header">Username:</label>
+      <input className="username-box"
         data-testid="auth-input-username"
         value={credentials.username}
         onChange={(e) =>
@@ -85,8 +86,8 @@ export default function AuthForm({ dialogRef }) {
         }
         placeholder="Type your username..."
       />
-      <label>Password:</label>
-      <input
+      <label className="password-header">Password:</label>
+      <input className="password-box"
         data-testid="auth-input-password"
         type="password"
         value={credentials.password}
@@ -115,7 +116,7 @@ export default function AuthForm({ dialogRef }) {
       )}
       <button
         type="reset"
-        className="btn guest-btn"
+        className="btn-guest-btn"
         onClick={() => dialogRef.current.close()}
         >
         Proceed as guest

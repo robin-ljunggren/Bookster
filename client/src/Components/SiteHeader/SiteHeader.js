@@ -48,7 +48,7 @@ export default function SiteHeader() {
           />
         )}
       </section>
-      <dialog ref={dialogRef}>
+      <dialog className="auth-form-dialog" ref={dialogRef}>
         <AuthForm dialogRef={dialogRef}/>
       </dialog>
     </header>

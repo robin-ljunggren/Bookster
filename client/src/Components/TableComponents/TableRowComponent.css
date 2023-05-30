@@ -1,7 +1,9 @@
-.trow {
+.trow > * {
   background-color: rgb(219, 219, 219);
+  padding: .5em;
 }
-.trow-col3,
-.trow-col4 {
+
+.trow-col3, .trow-col4 {
   text-align: center;
 }
+
