@@ -27,8 +27,10 @@ export default function Books() {
   useEffect(() => {
     if (query === "")
       fetchService.getAllBooks().then((result) => {
-        console.log("allBooks: ", result);
-        setAllBooks(result);
+        if (allBooks.version !== result.version) {
+          console.log("allBooks: ", result);
+          setAllBooks(result);
+        }
       });
   }, [query]);
 
@@ -79,7 +81,11 @@ export default function Books() {
                     book.quantity === 0 ? (
                       "Out of Stock"
                     ) : (
-                      <OrderBook book={book} />
+                      <OrderBook
+                        book={book}
+                        setAllBooks={setAllBooks}
+                        allBooks={allBooks}
+                      />
                     )
                   }
                   action={

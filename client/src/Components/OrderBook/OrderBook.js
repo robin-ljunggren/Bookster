@@ -3,7 +3,7 @@ import ButtonComponent from "../abstract/ButtonComponent";
 import memoryService from "../../service/memoryService";
 import fetchService from "../../service/fetchService";
 
-export default function OrderBook({ book, setUpdate }) {
+export default function OrderBook({ book, setAllBooks, allBooks }) {
   const bookQty = book.quantity;
   const [bookToOrder, setBookToOrder] = useState({
     title: book.title,
@@ -13,7 +13,10 @@ export default function OrderBook({ book, setUpdate }) {
   async function handleOrder() {
     const response = await fetchService.buyBook(bookToOrder);
     console.log("buy: ", response);
+    alert(`You Have ${response.message}, quantity: ${response.quantity} `);
     setBookToOrder({ ...bookToOrder, quantity: 0 });
+    if (allBooks.version !== response.context.version)
+      setAllBooks(response.context);
   }
 
   return (
