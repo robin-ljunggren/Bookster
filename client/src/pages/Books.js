@@ -11,7 +11,7 @@ import ButtonComponent from "../Components/abstract/ButtonComponent";
 import EditAddPopUp from "../Components/abstract/EditAddPopUp";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
-import useShortPoll from "../hooks/shortPollHook";
+// import useShortPoll from "../hooks/shortPollHook";
 
 export default function Books() {
   const currentUser = useCurrentUser();
@@ -22,7 +22,18 @@ export default function Books() {
   const editAddRef = useRef();
   const [allBooks, setAllBooks] = useState({});
   const { isSearching, noData } = useBookSearchApi(query, setAllBooks);
-  const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
+  // const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
+
+  async function fetchAllBook() {
+      const result = await fetchService.getAllBooks();
+      setAllBooks(result);
+  }
+
+  useEffect(() => {
+    if(query === ''){
+      fetchAllBook();
+    }
+  }, [query]);
 
   return (
     <>
