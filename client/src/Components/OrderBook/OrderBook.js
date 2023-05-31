@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent";
 import memoryService from "../../service/memoryService";
+import "./OrderBook.css";
 
 export default function OrderBook({ book, setUpdate }) {
   const bookQty = book.quantity;

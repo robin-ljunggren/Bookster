@@ -21,7 +21,7 @@ export default function SiteHeader() {
     <header className="site-header-container">
       <h1 className="site-header-h1">Booksters Website</h1>
       <section className="site-header-section">
-        <p data-testid="current-user">
+        <p className="browsing-as-text" data-testid="current-user">
           {!authState
             ? `Browsing as guest`
             : `Browsing as user ${currentUser.username}`}

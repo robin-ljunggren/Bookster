@@ -32,6 +32,7 @@
     margin-left: 1em;
     font-weight: bold;
     border-radius: 8%;
+    cursor: pointer;
 }
 
 .btn-guest-btn {
@@ -40,11 +41,13 @@
     margin-left: 2em;
     font-weight: bold;
     border-radius: 8%;
+    cursor: pointer;
 }
 
 .login\2fregister-span {
     text-decoration: underline;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .signup-styling, .signin-styling {

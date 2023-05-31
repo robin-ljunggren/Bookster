@@ -1,21 +1,22 @@
 import React from "react";
 import ButtonComponent from "./ButtonComponent";
+import "./EditAddPopUp.css";
 
 export default function EditAddPopUp({ editAddRef, method, book }) {
   return (
     <form>
       {/* <button onClick={(e) => {e.preventDefault(); editAddRef.current.close()}}>X</button> */}
-      <h3>{method} book</h3>
-      <label>{method === "Add" ? "Title" : `Title - ${book.title}`}</label>
+      <h3 className="editAdd-header">{method} book</h3>
+      <label className="title-styling">{method === "Add" ? "Title:" : `Title - ${book.title}`}</label>
       <input type="text" placeholder="Insert new title here" />
-      <label>{method === "Add" ? "Author" : `Author - ${book.author}`}</label>
+      <label className="author-styling">{method === "Add" ? "Author:" : `Author - ${book.author}`}</label>
       <input type="text" placeholder="Insert new author here" />
-      <label>
-        {method === "Add" ? "Quantity" : `Quantity - ${book.quantity}`}
+      <label className="quantity-styling">
+        {method === "Add" ? "Quantity:" : `Quantity - ${book.quantity}`}
       </label>
       <input type="text" placeholder="Insert new quantity here" />
       <div>
-        <ButtonComponent onClick={() => {}} txt={"Save changes"} />
+        <ButtonComponent className={"btn-save-changes"} onClick={() => {}} txt={"Save changes"} />
         <ButtonComponent
           onClick={(e) => {
             e.preventDefault();

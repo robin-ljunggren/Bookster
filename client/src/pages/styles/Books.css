@@ -1,8 +1,30 @@
-.table-styling {
+.books-table-styling {
     margin-left: 2em;
+    margin-bottom: 2em;
 }
 
 .tablerow-styling {
     padding: 2em;
 }
 
+.add-btn {
+    margin-left: 2.5em;
+    padding: .5em;
+    border-radius: 5%;
+    background-color: rgb(219, 219, 219);
+    color: rgb(59, 58, 58);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit-btn {
+    margin-right: .5em;
+}
+
+.edit-dialog {
+    background-color: rgb(234, 230, 230);
+}
+
+.promote-dialog {
+    background-color: rgb(234, 230, 230);
+}
