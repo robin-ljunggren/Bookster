@@ -39,6 +39,7 @@ export default function useShortPoll(query, allBooks, setAllBooks) {
         let shortPollTimeout = setTimeout(() => {
         shortPolling();
         setRuntime(runtime => runtime + 1);
+        console.log(timeoutMs)
       }, timeoutMs);
       return () => clearTimeout(shortPollTimeout);
     }

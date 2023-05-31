@@ -14,6 +14,11 @@ async function getAllBooks() {
   return await fetchAPI(endpoint);
 }
 
+async function searchBook(query) {
+  const endpoint = `/library/books/search?q=${query}`
+  return await fetchAPI(endpoint);
+}
+
 async function getAllUsers() {
   const endpoint = "/admin/users";
   let headersList = {
@@ -45,5 +50,5 @@ async function buyBook(bookToOrder) {
   });
 }
 
-const fetchService = { getAllBooks, getAllUsers, buyBook };
+const fetchService = { getAllBooks, searchBook, getAllUsers, buyBook };
 export default fetchService;

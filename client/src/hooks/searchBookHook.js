@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import fetchService from "../service/fetchService";
 
 export default function useBookSearchApi(query, setAllBooks) {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,19 +10,17 @@ export default function useBookSearchApi(query, setAllBooks) {
     async function fetchBook() {
       if (query === "") return setNoData(false);
 
-      const searchUrl = "http://127.0.0.1:4000/library/books/search?q=" + query;
-
       setIsLoading(true);
 
       try {
         setNoData(false);
-        const response = await fetch(searchUrl);
-        let data = await response.json();
-        if (data.length === 0) {
+        const result = await fetchService.searchBook(query);
+        console.log(result);
+
+        if (result.length === 0) {
           setNoData(true);
         }
-        setAllBooks(data);
-
+        setAllBooks({books: result});
         setIsLoading(false);
       } catch (err) {
         console.log(err);

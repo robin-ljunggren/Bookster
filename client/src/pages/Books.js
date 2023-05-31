@@ -24,8 +24,6 @@ export default function Books() {
   const { isSearching, noData } = useBookSearchApi(query, setAllBooks);
   const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
 
-  console.log(timeoutMs);
-
   return (
     <>
       <section className="search-section">
