@@ -11,28 +11,18 @@ import ButtonComponent from "../Components/abstract/ButtonComponent";
 import EditAddPopUp from "../Components/abstract/EditAddPopUp";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
+import useShortPoll from "../hooks/shortPollHook";
 
 export default function Books() {
   const currentUser = useCurrentUser();
   const [query, setQuery] = useState("");
-  // const { isLoading, noData, dataState } = useBookSearchApi(query);
   const [actionState, setActionState] = useState({ method: "" });
   const [bookContent, setBookContent] = useState({});
   const promoteDeleteRef = useRef();
   const editAddRef = useRef();
   const [allBooks, setAllBooks] = useState({});
-
-  const { isLoading, noData } = useBookSearchApi(query, setAllBooks);
-
-  useEffect(() => {
-    if (query === "")
-      fetchService.getAllBooks().then((result) => {
-        if (allBooks.version !== result.version) {
-          console.log("allBooks: ", result);
-          setAllBooks(result);
-        }
-      });
-  }, [query]);
+  const { isSearching, noData } = useBookSearchApi(query, setAllBooks);
+  const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
 
   return (
     <>
@@ -58,8 +48,8 @@ export default function Books() {
       )}
       {noData ? (
         <p>There is no book with that title or author</p>
-      ) : isLoading ? (
-        "Loading..."
+      ) : isSearching ? (
+        "Searching after books..."
       ) : (
         <table>
           <THeadComponent

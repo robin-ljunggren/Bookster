@@ -14,6 +14,11 @@ async function getAllBooks() {
   return await fetchAPI(endpoint);
 }
 
+async function searchBook(query) {
+  const endpoint = `/library/books/search?q=${query}`
+  return await fetchAPI(endpoint);
+}
+
 async function getAllUsers() {
   const endpoint = "/admin/users";
   let headersList = {
@@ -124,5 +129,5 @@ async function alterUser() {
 
 // DELETE /admin/users {"username"}
 
-const fetchService = { getAllBooks, getAllUsers, buyBook, addBook, updateBook };
+const fetchService = { getAllBooks, searchBook, getAllUsers, buyBook, addBook, updateBook };
 export default fetchService;

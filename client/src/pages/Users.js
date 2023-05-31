@@ -1,6 +1,5 @@
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
-
 import "./styles/Users.css";
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent";
@@ -10,10 +9,10 @@ import { useRef, useState, useEffect } from "react";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
 
+
 export default function Users() {
   const currentUser = useCurrentUser();
   const [allUsers, setAllUsers] = useState([]);
-
   const promoteDeleteRef = useRef();
   const [actionState, setActionState] = useState({ method: "" });
   const [userContent, setUserContent] = useState({});
