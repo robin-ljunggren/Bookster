@@ -29,8 +29,11 @@ export default function Users() {
     return <Navigate to={"/"} />;
   }
   return (
-    <>
-      {currentUser.role === "ADMIN" && <NavigationComponent />}
+    <div className="page-wrapper">
+      {/* {currentUser.role === "ADMIN" && <NavigationComponent />} */}
+      <div className="flex-container-userspage">
+        <NavigationComponent />
+      </div>
       <table className="users-table-styling">
         <THeadComponent
           col1={"Username"}
@@ -91,6 +94,6 @@ export default function Users() {
           listState={allUsers}
         />
       </dialog>
-    </>
+    </div>
   );
 }

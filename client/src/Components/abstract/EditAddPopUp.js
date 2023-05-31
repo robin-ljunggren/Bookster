@@ -15,13 +15,10 @@ export default function EditAddPopUp({
   listState,
   setListState,
 }) {
-  console.log("bookContent: ", bookContent);
-  // const [bookToChange, setBookToChange] = useState(book);
-
   async function handleMethod() {
     const body =
       method === "POST"
-        ? { bookContent }
+        ? { ...bookContent.current }
         : {
             previous: { title: bookContent.previous.title },
             current: { ...bookContent.current },

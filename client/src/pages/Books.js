@@ -41,28 +41,30 @@ export default function Books() {
   }, [query]);
 
   return (
-    <>
-      <section className="search-section">
-        <SearchField
-          placeholder={"Search title/author..."}
-          onChange={(e) => {
-            setQuery(e.target.value);
-          }}
-        />
-      </section>
-      {currentUser.role === "ADMIN" && (
-        <div>
-          <ButtonComponent
-            className={"add-btn"}
-            onClick={() => {
-              setMethod("POST");
-              editAddRef.current.showModal();
+    <div className="page-wrapper">
+      <div className="flex-container-bookspage">
+        <section className="search-section">
+          <SearchField
+            placeholder={"Search title/author..."}
+            onChange={(e) => {
+              setQuery(e.target.value);
             }}
-            txt={"Add new book"}
           />
-          <NavigationComponent />
-        </div>
-      )}
+        </section>
+        {currentUser.role === "ADMIN" && (
+          <>
+            <ButtonComponent
+              className={"add-btn"}
+              onClick={() => {
+                setMethod("POST");
+                editAddRef.current.showModal();
+              }}
+              txt={"Add new book"}
+            />
+            <NavigationComponent />
+          </>
+        )}
+      </div>
       <table className="books-table-styling">
         <THeadComponent
           col1={"Title"}
@@ -144,6 +146,6 @@ export default function Books() {
           listState={allBooks}
         />
       </dialog>
-    </>
+    </div>
   );
 }

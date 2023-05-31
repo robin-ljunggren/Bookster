@@ -1,11 +1,23 @@
 .users-table-styling {
-    margin-left: 2em;
+  margin-left: 2em;
 }
 
 .promote-btn {
-    margin-right: .5em;
+  margin-right: 0.5em;
 }
 
 .promote-delete-dialog {
-    background-color: rgb(234, 230, 230);
+  background-color: rgb(234, 230, 230);
+}
+
+.flex-container-userspage {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+  margin-bottom: 0;
+  padding-top: 2.7em;
+}
+.page-wrapper {
+  width: fit-content;
+  margin: auto 0;
 }

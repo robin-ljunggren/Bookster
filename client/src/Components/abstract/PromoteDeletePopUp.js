@@ -1,7 +1,7 @@
 import React from "react";
 import ButtonComponent from "./ButtonComponent";
 import fetchService from "../../service/fetchService";
-
+import "./PromoteDeletePopUp.css";
 export default function PromoteDeletePopUp({
   promoteDeleteRef,
   pageState,
@@ -17,7 +17,6 @@ export default function PromoteDeletePopUp({
       pageState === "books" && method === "DELETE"
         ? await fetchService.adminBooks(method, body)
         : await fetchService.adminUsers(method, body);
-    import "./PromoteDeletePopUp.css";
 
     console.log(result);
     alert(result.message);
