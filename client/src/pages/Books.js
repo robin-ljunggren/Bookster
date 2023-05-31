@@ -22,7 +22,11 @@ export default function Books() {
   const editAddRef = useRef();
   const [allBooks, setAllBooks] = useState({});
   const { isSearching, noData } = useBookSearchApi(query, setAllBooks);
-  const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
+  // const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
+
+  useEffect(() => {
+    fetchService.getAllBooks().then((data) => setAllBooks(data));
+  }, [])
 
   return (
     <>
