@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent";
 import fetchService from "../../service/fetchService";
+import "./OrderBook.css";
 
 export default function OrderBook({ book, setAllBooks, allBooks }) {
   const bookQty = book.quantity;

@@ -1,0 +1,23 @@
+.editAdd-header {
+    background-color: rgb(161, 161, 161);
+    padding: .5em;
+}
+
+.title-styling {
+    margin-right: .5em;
+    font-weight: bold;
+}
+
+.author-styling {
+    margin: .5em;
+    font-weight: bold;
+}
+
+.quantity-styling {
+    margin: .5em;
+    font-weight: bold;
+}
+
+.btn-save-changes {
+    margin: 2.5em 1.5em 1em 2em;
+}

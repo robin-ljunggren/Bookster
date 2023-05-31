@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import OrderBook from "../Components/OrderBook/OrderBook";
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
-import SearchField from "../Components/abstract/SearchField";
+import SearchField from "../Components/abstract/SearchField/SearchField";
 import useBookSearchApi from "../hooks/searchBookHook";
 import "./styles/Books.css";
 import { useCurrentUser } from "../context/userContext";
-import NavigationComponent from "../Components/abstract/NavigationComponent";
+import NavigationComponent from "../Components/abstract/NavigationComponent/NavigationComponent";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
 import EditAddPopUp from "../Components/abstract/EditAddPopUp";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
@@ -53,6 +53,7 @@ export default function Books() {
       {currentUser.role === "ADMIN" && (
         <div>
           <ButtonComponent
+            className={"add-btn"}
             onClick={() => {
               setMethod("POST");
               editAddRef.current.showModal();
@@ -62,7 +63,7 @@ export default function Books() {
           <NavigationComponent />
         </div>
       )}
-      <table>
+      <table className="books-table-styling">
         <THeadComponent
           col1={"Title"}
           col2={"Author"}
@@ -97,6 +98,7 @@ export default function Books() {
                 action={
                   <div>
                     <ButtonComponent
+                      className={"edit-btn"}
                       onClick={() => {
                         setMethod("PUT");
                         editAddRef.current.showModal();
@@ -122,7 +124,7 @@ export default function Books() {
           )}
         </tbody>
       </table>
-      <dialog ref={editAddRef}>
+      <dialog className="edit-dialog" ref={editAddRef}>
         <EditAddPopUp
           editAddRef={editAddRef}
           method={method}
@@ -132,7 +134,7 @@ export default function Books() {
           listState={allBooks}
         />
       </dialog>
-      <dialog ref={promoteDeleteRef}>
+      <dialog className="promote-dialog" ref={promoteDeleteRef}>
         <PromoteDeletePopUp
           promoteDeleteRef={promoteDeleteRef}
           pageState={"books"}

@@ -1,3 +1,4 @@
-.thead {
+.thead > * {
   background-color: rgb(161, 161, 161);
+  padding: 1em;
 }

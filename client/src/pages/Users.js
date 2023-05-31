@@ -2,7 +2,7 @@ import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import "./styles/Users.css";
 import { useCurrentUser } from "../context/userContext";
-import NavigationComponent from "../Components/abstract/NavigationComponent";
+import NavigationComponent from "../Components/abstract/NavigationComponent/NavigationComponent";
 import { Navigate } from "react-router-dom";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
 import { useRef, useState, useEffect } from "react";
@@ -31,7 +31,7 @@ export default function Users() {
   return (
     <>
       {currentUser.role === "ADMIN" && <NavigationComponent />}
-      <table>
+      <table className="users-table-styling">
         <THeadComponent
           col1={"Username"}
           col2={"Role"}
@@ -57,6 +57,7 @@ export default function Users() {
                 action={
                   <div>
                     <ButtonComponent
+                      className={"promote-btn"}
                       onClick={() => {
                         setMethod("PUT");
                         setUserAccount(user.username);
@@ -80,7 +81,7 @@ export default function Users() {
           )}
         </tbody>
       </table>
-      <dialog ref={promoteDeleteRef}>
+      <dialog className="promote-delete-dialog" ref={promoteDeleteRef}>
         <PromoteDeletePopUp
           promoteDeleteRef={promoteDeleteRef}
           method={method}

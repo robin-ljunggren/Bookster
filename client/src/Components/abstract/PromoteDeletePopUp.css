@@ -1,0 +1,8 @@
+.delete-header, .promote-header {
+    background-color: rgb(161, 161, 161);
+    padding: .5em;
+}
+
+.btn-promote-delete {
+    margin: 1em 1.5em 1em 1em;
+}

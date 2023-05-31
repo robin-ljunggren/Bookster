@@ -17,6 +17,7 @@ export default function PromoteDeletePopUp({
       pageState === "books" && method === "DELETE"
         ? await fetchService.adminBooks(method, body)
         : await fetchService.adminUsers(method, body);
+    import "./PromoteDeletePopUp.css";
 
     console.log(result);
     alert(result.message);
@@ -28,9 +29,13 @@ export default function PromoteDeletePopUp({
   return (
     <article>
       {method === "DELETE" && (
-        <h3>{pageState === "books" ? "Delete book" : "Delete user"}</h3>
+        <h3 className="delete-header">
+          {pageState === "books" ? "Delete book" : "Delete user"}
+        </h3>
       )}
-      {method === "PUT" && <h3>Change users role</h3>}
+      {method === "PUT" && (
+        <h3 className="promote-header">Change users role</h3>
+      )}
       <p>{`Are you sure you wish to ${
         method === "DELETE" ? "delete" : "promote"
       } 
@@ -44,6 +49,7 @@ export default function PromoteDeletePopUp({
         }`}</p>
       <div>
         <ButtonComponent
+          className="btn-promote-delete"
           txt={method === "PUT" ? "Promote" : "Delete"}
           onClick={handleMethod}
         />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ButtonComponent from "./ButtonComponent";
 import fetchService from "../../service/fetchService";
-
+import "./EditAddPopUp.css";
 const initialState = {
   current: { title: "", author: "", quantity: 0 },
   previous: {},
@@ -38,9 +38,11 @@ export default function EditAddPopUp({
   return (
     <form>
       {/* <button onClick={(e) => {e.preventDefault(); editAddRef.current.close()}}>X</button> */}
-      <h3>{method === "POST" ? "Add" : "Edit"} book</h3>
-      <label>
-        {method === "POST" ? "Title" : `Title - ${bookContent.previous.title}`}
+      <h3 className="editAdd-header">
+        {method === "POST" ? "Add" : "Edit"} book
+      </h3>
+      <label className="title-styling">
+        {method === "POST" ? "Title:" : `Title - ${bookContent.previous.title}`}
       </label>
       <input
         type="text"
@@ -53,9 +55,9 @@ export default function EditAddPopUp({
           })
         }
       />
-      <label>
+      <label className="author-styling">
         {method === "POST"
-          ? "Author"
+          ? "Author:"
           : `Author - ${bookContent.previous.author}`}
       </label>
       <input
@@ -69,9 +71,9 @@ export default function EditAddPopUp({
           })
         }
       />
-      <label>
+      <label className="quantity-styling">
         {method === "POST"
-          ? "Quantity"
+          ? "Quantity:"
           : `Quantity - ${bookContent.previous.quantity}`}
       </label>
       <input
@@ -89,7 +91,11 @@ export default function EditAddPopUp({
         }
       />
       <div>
-        <ButtonComponent onClick={handleMethod} txt={"Save changes"} />
+        <ButtonComponent
+          className={"btn-save-changes"}
+          onClick={handleMethod}
+          txt={"Save changes"}
+        />
         <ButtonComponent
           onClick={(e) => {
             e.preventDefault();
