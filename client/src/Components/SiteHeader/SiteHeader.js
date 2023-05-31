@@ -24,7 +24,9 @@ export default function SiteHeader() {
         <p className="browsing-as-text" data-testid="current-user">
           {!authState
             ? `Browsing as guest`
-            : `Browsing as user ${currentUser.username}`}
+            : `Browsing as ${currentUser.role.toLowerCase()} ${
+                currentUser.username
+              }`}
         </p>
         {!authState ? (
           <ButtonComponent
@@ -49,7 +51,7 @@ export default function SiteHeader() {
         )}
       </section>
       <dialog className="auth-form-dialog" ref={dialogRef}>
-        <AuthForm dialogRef={dialogRef}/>
+        <AuthForm dialogRef={dialogRef} />
       </dialog>
     </header>
   );

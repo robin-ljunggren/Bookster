@@ -1,5 +1,5 @@
 .users-table-styling {
-  margin-left: 2em;
+  /* margin-left: 2em; */
 }
 
 .promote-btn {
@@ -19,5 +19,5 @@
 }
 .page-wrapper {
   width: fit-content;
-  margin: auto 0;
+  margin: 0 auto;
 }

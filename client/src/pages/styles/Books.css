@@ -1,5 +1,5 @@
 .books-table-styling {
-  margin-left: 2em;
+  /* margin-left: 2em; */
   margin-bottom: 2em;
 }
 
@@ -9,6 +9,7 @@
 
 .add-btn {
   margin-left: 2.5em;
+  margin-bottom: 0.5em;
   padding: 0.5em;
   border-radius: 5%;
   background-color: rgb(219, 219, 219);
@@ -37,5 +38,5 @@
 }
 .page-wrapper {
   width: fit-content;
-  margin: auto 0;
+  margin: 0 auto;
 }
