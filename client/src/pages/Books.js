@@ -16,21 +16,26 @@ import fetchService from "../service/fetchService";
 export default function Books() {
   const currentUser = useCurrentUser();
   const [query, setQuery] = useState("");
-  const [actionState, setActionState] = useState({ method: "" });
-  const [bookContent, setBookContent] = useState({});
+  const [method, setMethod] = useState("");
+  const [bookContent, setBookContent] = useState({
+    current: { title: "", author: "", quantity: 0 },
+    previous: {},
+  });
+  const [bookToDelete, setBookToDelete] = useState("");
+  const [allBooks, setAllBooks] = useState({});
   const promoteDeleteRef = useRef();
   const editAddRef = useRef();
-  const [allBooks, setAllBooks] = useState({});
+
   const { isSearching, noData } = useBookSearchApi(query, setAllBooks);
   // const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
 
   async function fetchAllBook() {
-      const result = await fetchService.getAllBooks();
-      setAllBooks(result);
+    const result = await fetchService.getAllBooks();
+    setAllBooks(result);
   }
 
   useEffect(() => {
-    if(query === ''){
+    if (query === "") {
       fetchAllBook();
     }
   }, [query]);
@@ -49,7 +54,7 @@ export default function Books() {
         <div>
           <ButtonComponent
             onClick={() => {
-              setActionState({ method: "Add" });
+              setMethod("POST");
               editAddRef.current.showModal();
             }}
             txt={"Add new book"}
@@ -57,76 +62,84 @@ export default function Books() {
           <NavigationComponent />
         </div>
       )}
-      {noData ? (
-        <p>There is no book with that title or author</p>
-      ) : isSearching ? (
-        "Searching after books..."
-      ) : (
-        <table>
-          <THeadComponent
-            col1={"Title"}
-            col2={"Author"}
-            col3={"Quantity"}
-            col4={"Order"}
-            action={"Action"}
-          />
-          <tbody>
-            {allBooks.books &&
-              allBooks.books.map((book) => (
-                <TableRowComponent
-                  key={crypto.randomUUID()}
-                  col1={book.title}
-                  col2={book.author}
-                  col3={book.quantity}
-                  col4={
-                    book.quantity === 0 ? (
-                      "Out of Stock"
-                    ) : (
-                      <OrderBook
-                        book={book}
-                        setAllBooks={setAllBooks}
-                        allBooks={allBooks}
-                      />
-                    )
-                  }
-                  action={
-                    <div>
-                      <ButtonComponent
-                        onClick={() => {
-                          setActionState({ method: "Edit" });
-                          editAddRef.current.showModal();
-                          setBookContent(book);
-                        }}
-                        txt={"Edit"}
-                      />
-                      <ButtonComponent
-                        onClick={() => {
-                          setActionState({ method: "Delete" });
-                          setBookContent(book);
-                          promoteDeleteRef.current.showModal();
-                        }}
-                        txt={"Delete"}
-                      />
-                    </div>
-                  }
-                />
-              ))}
-          </tbody>
-        </table>
-      )}
+      <table>
+        <THeadComponent
+          col1={"Title"}
+          col2={"Author"}
+          col3={"Quantity"}
+          col4={"Order"}
+          action={"Action"}
+        />
+        <tbody>
+          {noData ? (
+            <p>There is no book with that title or author</p>
+          ) : isSearching ? (
+            <p>Searching after books...</p>
+          ) : (
+            allBooks.books &&
+            allBooks.books.map((book) => (
+              <TableRowComponent
+                key={crypto.randomUUID()}
+                col1={book.title}
+                col2={book.author}
+                col3={book.quantity}
+                col4={
+                  book.quantity === 0 ? (
+                    "Out of Stock"
+                  ) : (
+                    <OrderBook
+                      book={book}
+                      setAllBooks={setAllBooks}
+                      allBooks={allBooks}
+                    />
+                  )
+                }
+                action={
+                  <div>
+                    <ButtonComponent
+                      onClick={() => {
+                        setMethod("PUT");
+                        editAddRef.current.showModal();
+                        setBookContent({
+                          current: { ...book },
+                          previous: { ...book },
+                        });
+                      }}
+                      txt={"Edit"}
+                    />
+                    <ButtonComponent
+                      onClick={() => {
+                        setMethod("DELETE");
+                        setBookToDelete(book.title);
+                        promoteDeleteRef.current.showModal();
+                      }}
+                      txt={"Delete"}
+                    />
+                  </div>
+                }
+              />
+            ))
+          )}
+        </tbody>
+      </table>
       <dialog ref={editAddRef}>
         <EditAddPopUp
           editAddRef={editAddRef}
-          method={actionState.method}
-          book={bookContent}
+          method={method}
+          bookContent={bookContent}
+          setBookContent={setBookContent}
+          setListState={setAllBooks}
+          listState={allBooks}
         />
       </dialog>
       <dialog ref={promoteDeleteRef}>
         <PromoteDeletePopUp
           promoteDeleteRef={promoteDeleteRef}
           pageState={"books"}
-          method={actionState.method}
-          title={bookContent.title}
+          method={method}
+          title={bookToDelete}
+          setListState={setAllBooks}
+          listState={allBooks}
         />
       </dialog>
     </>

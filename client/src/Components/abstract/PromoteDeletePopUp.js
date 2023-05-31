@@ -13,7 +13,10 @@ export default function PromoteDeletePopUp({
 }) {
   async function handleMethod() {
     const body = pageState === "books" ? { title } : { username };
-    const result = await fetchService.adminUsers(method, body);
+    const result =
+      pageState === "books" && method === "DELETE"
+        ? await fetchService.adminBooks(method, body)
+        : await fetchService.adminUsers(method, body);
 
     console.log(result);
     alert(result.message);
