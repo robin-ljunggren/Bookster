@@ -15,7 +15,7 @@ async function getAllBooks() {
 }
 
 async function searchBook(query) {
-  const endpoint = `/library/books/search?q=${query}`
+  const endpoint = `/library/books/search?q=${query}`;
   return await fetchAPI(endpoint);
 }
 
@@ -50,8 +50,10 @@ async function buyBook(bookToOrder) {
   });
 }
 
-async function addBook(book) {
-  // POST /admin/books { "author", "title", "quantity"}
+// POST /admin/books { "author", "title", "quantity"}
+// PUT /admin/books { "previous", "current" }
+// DELETE /admin/books { "title" }
+async function adminBooks(method, body) {
   const endpoint = "/admin/books";
   let headersList = {
     Accept: "*/*",
@@ -59,75 +61,103 @@ async function addBook(book) {
     "Content-Type": "application/json",
   };
 
-  let bodyContent = JSON.stringify({
-    title: book.title,
-    author: book.author,
-    quantity: book.quantity,
-  });
+  let bodyContent = JSON.stringify(body);
 
   return await fetchAPI(endpoint, {
-    method: "POST",
+    method: method,
     body: bodyContent,
     headers: headersList,
   });
 }
 
-async function updateBook(preivousTitle, book) {
-  // PUT /admin/books { "previous", "current" }
-  const endpoint = "/admin/books";
-  let headersList = {
-    Accept: "*/*",
-    Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
-    "Content-Type": "application/json",
-  };
-
-  let bodyContent = JSON.stringify({
-    preivous: { title: preivousTitle },
-    current: {
-      title: book.title,
-      author: book.author,
-      quantity: book.quantity,
-    },
-  });
-
-  return await fetchAPI(endpoint, {
-    method: "PUT",
-    body: bodyContent,
-    headers: headersList,
-  });
-}
-
-async function deleteBook(book) {
-  // DELETE /admin/books { "title" }
-  const endpoint = "/admin/books";
-  let headersList = {
-    Accept: "*/*",
-    Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
-    "Content-Type": "application/json",
-  };
-
-  let bodyContent = JSON.stringify({ title: book.title });
-
-  return await fetchAPI(endpoint, {
-    method: "DELETE",
-    body: bodyContent,
-    headers: headersList,
-  });
-}
-
-async function alterUser() {
+// PUT /admin/users {"username"}
+// DELETE /admin/users {"username"}
+async function adminUsers(method, body) {
   const endpoint = "/admin/users";
   let headersList = {
     Accept: "*/*",
     Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
     "Content-Type": "application/json",
   };
-
-  return await fetchAPI(endpoint, { headers: headersList });
+  let bodyContent = JSON.stringify(body);
+  return await fetchAPI(endpoint, {
+    method: method,
+    headers: headersList,
+    body: bodyContent,
+  });
 }
-// PUT /admin/users {"username"}
 
-// DELETE /admin/users {"username"}
+// async function addBook(book) {
+//   // POST /admin/books { "author", "title", "quantity"}
+//   const endpoint = "/admin/books";
+//   let headersList = {
+//     Accept: "*/*",
+//     Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
+//     "Content-Type": "application/json",
+//   };
 
-const fetchService = { getAllBooks, searchBook, getAllUsers, buyBook, addBook, updateBook };
+//   let bodyContent = JSON.stringify({
+//     title: book.title,
+//     author: book.author,
+//     quantity: book.quantity,
+//   });
+
+//   return await fetchAPI(endpoint, {
+//     method: "POST",
+//     body: bodyContent,
+//     headers: headersList,
+//   });
+// }
+
+// async function updateBook(preivousTitle, book) {
+//   // PUT /admin/books { "previous", "current" }
+//   const endpoint = "/admin/books";
+//   let headersList = {
+//     Accept: "*/*",
+//     Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
+//     "Content-Type": "application/json",
+//   };
+
+//   let bodyContent = JSON.stringify({
+//     preivous: { title: preivousTitle },
+//     current: {
+//       title: book.title,
+//       author: book.author,
+//       quantity: book.quantity,
+//     },
+//   });
+
+//   return await fetchAPI(endpoint, {
+//     method: "PUT",
+//     body: bodyContent,
+//     headers: headersList,
+//   });
+// }
+
+// async function deleteBook(book, body) {
+//   // DELETE /admin/books { "title" }
+//   const endpoint = "/admin/books";
+//   let headersList = {
+//     Accept: "*/*",
+//     Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
+//     "Content-Type": "application/json",
+//   };
+
+//   let bodyContent = JSON.stringify({ title: book.title });
+
+//   return await fetchAPI(endpoint, {
+//     method: "DELETE",
+//     body: bodyContent,
+//     headers: headersList,
+//   });
+// }
+
+const fetchService = {
+  getAllBooks,
+  searchBook,
+  getAllUsers,
+  buyBook,
+  adminBooks,
+  adminUsers,
+};
 export default fetchService;
