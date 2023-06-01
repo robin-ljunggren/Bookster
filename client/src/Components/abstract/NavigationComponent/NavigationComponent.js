@@ -21,6 +21,7 @@ export default function NavigationComponent() {
         Books
       </NavLink>
       <NavLink
+        data-testid="admin-nav-users"
         to={"/admin/users"}
         style={({ isActive }) => {
           return {

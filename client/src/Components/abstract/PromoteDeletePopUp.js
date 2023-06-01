@@ -28,12 +28,14 @@ export default function PromoteDeletePopUp({
   return (
     <article>
       {method === "DELETE" && (
-        <h3 className="delete-header">
+        <h3 className="delete-header" data-testid="delete-header">
           {pageState === "books" ? "Delete book" : "Delete user"}
         </h3>
       )}
       {method === "PUT" && (
-        <h3 className="promote-header">Change users role</h3>
+        <h3 className="promote-header" data-testid="promote-header">
+          Change users role
+        </h3>
       )}
       <p>{`Are you sure you wish to ${
         method === "DELETE" ? "delete" : "promote"

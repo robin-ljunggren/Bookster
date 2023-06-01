@@ -1,3 +1,8 @@
+/**
+ * This file is for rendering the main Books page,
+ * imports the components needed and renders a table from the result of the fetch of all books.
+ */
+
 import { useState, useRef, useEffect } from "react";
 import OrderBook from "../Components/OrderBook/OrderBook";
 import THeadComponent from "../Components/TableComponents/THeadComponent";
@@ -45,6 +50,7 @@ export default function Books() {
       <div className="flex-container-bookspage">
         <section className="search-section">
           <SearchField
+            value={query}
             placeholder={"Search title/author..."}
             onChange={(e) => {
               setQuery(e.target.value);
