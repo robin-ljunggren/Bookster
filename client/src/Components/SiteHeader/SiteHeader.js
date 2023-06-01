@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import "./SiteHeader.css";
 import ButtonComponent from "../abstract/ButtonComponent.js";
 import AuthForm from "../AuthForm/AuthForm";
@@ -21,10 +21,12 @@ export default function SiteHeader() {
     <header className="site-header-container">
       <h1 className="site-header-h1">Booksters Website</h1>
       <section className="site-header-section">
-        <p data-testid="current-user">
+        <p className="browsing-as-text" data-testid="current-user">
           {!authState
             ? `Browsing as guest`
-            : `Browsing as user ${currentUser.username}`}
+            : `Browsing as ${currentUser.role.toLowerCase()} ${
+                currentUser.username
+              }`}
         </p>
         {!authState ? (
           <ButtonComponent
@@ -48,7 +50,7 @@ export default function SiteHeader() {
           />
         )}
       </section>
-      <dialog ref={dialogRef}>
+      <dialog className="auth-form-dialog" ref={dialogRef}>
         <AuthForm dialogRef={dialogRef} />
       </dialog>
     </header>

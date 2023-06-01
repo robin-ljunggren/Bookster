@@ -1,28 +1,35 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from "react";
+import memoryService from "../service/memoryService";
 
-const baseURL = "http://127.0.0.1:4000/library";
-
-export default function useUserSearchApi(query) {
-
+export default function useUserSearchApi() {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState();
-
-  let userUrl = baseURL + "/books/seach?q=";
-
-  async function fetchUser() {
-    if(query === '') return false;
-    setIsLoading(true);
-    const response = await fetch(baseURL + userUrl + query);
-    setData(await response.json());
-    setIsLoading(false);
-  }
+  const [dataState, setDataState] = useState([]);
 
   useEffect(() => {
-    const fetchUserTimeout = setTimeout(() => {fetchUser()}, 2000);
 
-    return () => clearTimeout(fetchUserTimeout);
-  }, [query]);
+    async function fetchUser() {
+      
+      setIsLoading(true);
+      let headersList = {
+        "Accept": "*/*",
+        "Authorization": "Bearer " + memoryService.getSessionValue('JWT_TOKEN'),
+       }
 
- 
-  return {isLoading, data};
+      try {
+        
+        const response = await fetch("http://127.0.0.1:4000/admin/users", {headers: headersList});
+        let data = await response.json();
+        let {users, version} = data;
+        setDataState(data.users);
+        setIsLoading(false);
+      }catch(err) {
+        console.log(err);
+      }
+    }
+
+    fetchUser();
+    
+  }, []);
+
+  return { isLoading, dataState };
 }

@@ -1,3 +1,9 @@
+/**
+ * This file provides service functions for auth endpoints, login and registration,
+ * that is used in the project.
+ * Each service function returns the JSON data and the status code of the response
+ */
+
 import memoryService from "./memoryService";
 import jwtUtil from "../util/jwtUtil";
 
@@ -25,21 +31,21 @@ async function login(username, password) {
   return { status: response.status, data };
 }
 
-async function registration({ username, password }) {
+async function registration(username, password) {
   let url = baseURL + "/auth/register";
   const fetchOptions = {
     method: "POST",
     headers: {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
     },
-    body: {
-      username,
-      password,
-    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
   };
   const response = await fetch(url, fetchOptions);
   const data = await response.json();
-  return data;
+  return { status: response.status, data };
 }
 
 function checkAuth() {

@@ -1,12 +1,24 @@
 import { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent";
+import fetchService from "../../service/fetchService";
+import "./OrderBook.css";
 
-export default function OrderBook({ book }) {
-  const [bookQty, setBookQty] = useState(book.quantity);
+export default function OrderBook({ book, setAllBooks, allBooks }) {
+  const bookQty = book.quantity;
   const [bookToOrder, setBookToOrder] = useState({
     title: book.title,
     quantity: 0,
   });
+
+  async function handleOrder() {
+    const response = await fetchService.buyBook(bookToOrder);
+    console.log("buy: ", response);
+    alert(`You Have ${response.message}, quantity: ${response.quantity} `);
+    setBookToOrder({ ...bookToOrder, quantity: 0 });
+    if (allBooks.version !== response.context.version)
+      setAllBooks(response.context);
+  }
+
   return (
     <div>
       <ButtonComponent
@@ -49,7 +61,7 @@ export default function OrderBook({ book }) {
       <ButtonComponent
         className={"order-btn"}
         testId={"order-btn"}
-        onClick={() => {}}
+        onClick={handleOrder}
         txt={"Order"}
         isDisabled={bookQty === 0}
       />

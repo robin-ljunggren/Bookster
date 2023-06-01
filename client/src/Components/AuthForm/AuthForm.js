@@ -4,7 +4,7 @@ import authService from "../../service/authService.js";
 import { useChangeCurrentUser } from "../../context/userContext.js";
 import { useToggleAuthState } from "../../context/authContext.js";
 import jwtUtil from "../../util/jwtUtil.js";
-import useLoggedInChecker from "../../service/userService.js";
+import "./AuthForm.css";
 
 export default function AuthForm({ dialogRef }) {
   const [formState, setFormState] = useState("login");
@@ -18,7 +18,7 @@ export default function AuthForm({ dialogRef }) {
 
   const link =
     formState === "login" ? (
-      <p>
+      <p className="signup-styling">
         No account? Sign up{" "}
         <span
           data-testid="toggle-form-span"
@@ -28,7 +28,7 @@ export default function AuthForm({ dialogRef }) {
         </span>
       </p>
     ) : (
-      <p>
+      <p className="signin-styling">
         Already have an account? Sign in{" "}
         <span
           data-testid="toggle-form-span"
@@ -58,18 +58,27 @@ export default function AuthForm({ dialogRef }) {
       } else if (resp.status >= 400) {
         alert(resp.data?.error);
       }
-    } else if (formState === "registration") {
-      authService.registration(credentials.username, credentials.password);
+    } else if (formState === "register") {
+      let resp = await authService.registration(
+        credentials.username,
+        credentials.password
+      );
+      if (resp.status === 201) {
+        alert("Successfully registered!");
+        setFormState("login");
+      } else if (resp.status >= 400) {
+        alert(resp.data?.error);
+      }
     }
   }
 
   return (
-    <form data-testid="auth-form" onSubmit={handleSubmit}>
+    <form className="auth-form" data-testid="auth-form" onSubmit={handleSubmit}>
       <h2 className="form-header" data-testid="auth-form-title">
         {formState === "login" ? "Sign in" : "Register"}
       </h2>
-      <label>Username:</label>
-      <input
+      <label className="username-header">Username:</label>
+      <input className="username-box"
         data-testid="auth-input-username"
         value={credentials.username}
         onChange={(e) =>
@@ -77,8 +86,8 @@ export default function AuthForm({ dialogRef }) {
         }
         placeholder="Type your username..."
       />
-      <label>Password:</label>
-      <input
+      <label className="password-header">Password:</label>
+      <input className="password-box"
         data-testid="auth-input-password"
         type="password"
         value={credentials.password}
@@ -90,21 +99,26 @@ export default function AuthForm({ dialogRef }) {
       {link}
       {formState === "login" ? (
         <ButtonComponent
+          type="submit"
           className={"login-btn"}
           testId={"login-btn"}
           txt={"Sign in"}
+          // onClick={handleSubmit}
         />
       ) : (
         <ButtonComponent
           className={"register-btn"}
           testId={"register-btn"}
           txt={"Register new account"}
+          // onClick={handleSubmit}
+          type="submit"
         />
       )}
       <button
         type="reset"
-        className="btn guest-btn"
-        onClick={() => dialogRef.current.close()}>
+        className="btn-guest-btn"
+        onClick={() => dialogRef.current.close()}
+        >
         Proceed as guest
       </button>
     </form>
