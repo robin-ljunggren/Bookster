@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import TableRowComponent from "./TableRowComponent";
 
-test("that a book renders in the table ", () => {
+test("that a book renders in the table", () => {
   const books = [
     {
       title: "Harry Potter",
