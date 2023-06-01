@@ -1,3 +1,9 @@
+/**
+ * This file provides service functions for all API endpoints, except auth endpoints,
+ * that is used in the project.
+ * Each service function returns the JSON data of the response
+ */
+
 import memoryService from "./memoryService";
 
 const baseURL = "http://127.0.0.1:4000";
@@ -86,71 +92,6 @@ async function adminUsers(method, body) {
     body: bodyContent,
   });
 }
-
-// async function addBook(book) {
-//   // POST /admin/books { "author", "title", "quantity"}
-//   const endpoint = "/admin/books";
-//   let headersList = {
-//     Accept: "*/*",
-//     Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
-//     "Content-Type": "application/json",
-//   };
-
-//   let bodyContent = JSON.stringify({
-//     title: book.title,
-//     author: book.author,
-//     quantity: book.quantity,
-//   });
-
-//   return await fetchAPI(endpoint, {
-//     method: "POST",
-//     body: bodyContent,
-//     headers: headersList,
-//   });
-// }
-
-// async function updateBook(preivousTitle, book) {
-//   // PUT /admin/books { "previous", "current" }
-//   const endpoint = "/admin/books";
-//   let headersList = {
-//     Accept: "*/*",
-//     Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
-//     "Content-Type": "application/json",
-//   };
-
-//   let bodyContent = JSON.stringify({
-//     preivous: { title: preivousTitle },
-//     current: {
-//       title: book.title,
-//       author: book.author,
-//       quantity: book.quantity,
-//     },
-//   });
-
-//   return await fetchAPI(endpoint, {
-//     method: "PUT",
-//     body: bodyContent,
-//     headers: headersList,
-//   });
-// }
-
-// async function deleteBook(book, body) {
-//   // DELETE /admin/books { "title" }
-//   const endpoint = "/admin/books";
-//   let headersList = {
-//     Accept: "*/*",
-//     Authorization: "Bearer " + memoryService.getSessionValue("JWT_TOKEN"),
-//     "Content-Type": "application/json",
-//   };
-
-//   let bodyContent = JSON.stringify({ title: book.title });
-
-//   return await fetchAPI(endpoint, {
-//     method: "DELETE",
-//     body: bodyContent,
-//     headers: headersList,
-//   });
-// }
 
 const fetchService = {
   getAllBooks,
