@@ -11,7 +11,7 @@ import NavigationComponent from "../Components/abstract/NavigationComponent/Navi
 import { Navigate } from "react-router-dom";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
 import { useRef, useState, useEffect } from "react";
-import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
+import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
 
 export default function Users() {

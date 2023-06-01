@@ -13,8 +13,8 @@ import "./styles/Books.css";
 import { useCurrentUser } from "../context/userContext";
 import NavigationComponent from "../Components/abstract/NavigationComponent/NavigationComponent";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
-import EditAddPopUp from "../Components/abstract/EditAddPopUp";
-import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
+import EditAddPopUp from "../Components/abstract/EditAddPopUp/EditAddPopUp";
+import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
 // import useShortPoll from "../hooks/shortPollHook";
 

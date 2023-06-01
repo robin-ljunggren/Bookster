@@ -7,8 +7,8 @@
  */
 
 import React from "react";
-import ButtonComponent from "./ButtonComponent";
-import fetchService from "../../service/fetchService";
+import ButtonComponent from "../ButtonComponent";
+import fetchService from "../../../service/fetchService";
 import "./EditAddPopUp.css";
 const initialState = {
   current: { title: "", author: "", quantity: 0 },
