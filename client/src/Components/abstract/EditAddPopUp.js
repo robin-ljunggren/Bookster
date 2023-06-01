@@ -35,10 +35,10 @@ export default function EditAddPopUp({
   return (
     <form>
       {/* <button onClick={(e) => {e.preventDefault(); editAddRef.current.close()}}>X</button> */}
-      <h3 className="editAdd-header">
+      <h3 className="editAdd-header" data-testid="editAdd-header">
         {method === "POST" ? "Add" : "Edit"} book
       </h3>
-      <label className="title-styling">
+      <label className="title-styling" data-testid="title-label">
         {method === "POST" ? "Title:" : `Title - ${bookContent.previous.title}`}
       </label>
       <input
