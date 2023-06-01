@@ -138,8 +138,8 @@ export default function Books() {
           method={method}
           bookContent={bookContent}
           setBookContent={setBookContent}
-          setListState={setAllBooks}
-          listState={allBooks}
+          setAllBooks={setAllBooks}
+          allBooks={allBooks}
         />
       </dialog>
       <dialog className="promote-dialog" ref={promoteDeleteRef}>

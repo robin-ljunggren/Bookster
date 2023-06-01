@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+/**
+ * This file is to be used in the pop up for when a admin wants to add or edit a book
+ * It uses the bookContent and setBookContent prop to keep track of changes made to the book and what method to be used
+ * The method is in http format to be easily used in the corresponding fetches.
+ * It also takes props allBooks and setAllBooks for saving the response
+ * It sets the BookContent state to an initil value-empty object when closed
+ */
+
+import React from "react";
 import ButtonComponent from "./ButtonComponent";
 import fetchService from "../../service/fetchService";
 import "./EditAddPopUp.css";
@@ -12,8 +20,8 @@ export default function EditAddPopUp({
   method,
   bookContent,
   setBookContent,
-  listState,
-  setListState,
+  allBooks,
+  setAllBooks,
 }) {
   async function handleMethod() {
     const body =
@@ -26,8 +34,8 @@ export default function EditAddPopUp({
     const result = await fetchService.adminBooks(method, body);
 
     alert(result.message);
-    if (listState.version !== result.context.version)
-      setListState(result.context);
+    if (allBooks.version !== result.context.version)
+      setAllBooks(result.context);
     setBookContent(initialState);
     editAddRef.current.close();
   }

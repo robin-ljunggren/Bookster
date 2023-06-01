@@ -1,3 +1,5 @@
+/** This file is for a button component  */
+
 import React from "react";
 
 export default function ButtonComponent({

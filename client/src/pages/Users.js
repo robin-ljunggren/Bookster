@@ -1,3 +1,8 @@
+/**
+ * This file is to render the page for administrating users
+ * imports the components needed and renders a table from the result of the fetch of all users.
+ */
+
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import "./styles/Users.css";
@@ -30,7 +35,6 @@ export default function Users() {
   }
   return (
     <div className="page-wrapper">
-      {/* {currentUser.role === "ADMIN" && <NavigationComponent />} */}
       <div className="flex-container-userspage">
         <NavigationComponent />
       </div>

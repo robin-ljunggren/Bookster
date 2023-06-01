@@ -1,3 +1,10 @@
+/**
+ * This file is for the sites header that should be rendered on each page
+ * It uses the context of both auth and current user to determine if you
+ * are browsing as a guest or a user and provides the appropriate actions
+ * to either log in or log out
+ */
+
 import React, { useRef } from "react";
 import "./SiteHeader.css";
 import ButtonComponent from "../abstract/ButtonComponent.js";
@@ -10,7 +17,6 @@ import {
 import memoryService from "../../service/memoryService";
 
 export default function SiteHeader() {
-  // states and username will be passed through useContext instead
   const authState = useAuthState();
   const setAuthState = useToggleAuthState();
   const currentUser = useCurrentUser();

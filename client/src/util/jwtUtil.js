@@ -1,4 +1,6 @@
-import memoryService from "../service/memoryService";
+/**
+ * This file is a util file for extracting data from a jwtToken and also to see if it is still valid.
+ */
 
 function parsePayload(token) {
   const payload = token.split(".")[1];

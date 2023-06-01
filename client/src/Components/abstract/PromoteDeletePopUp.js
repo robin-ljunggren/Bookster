@@ -1,3 +1,10 @@
+/**
+ * This file is to be used in the pop up confirmation when a admin wants to delete a user or book or promote a user
+ * It uses the pageState prop to keep track of which page its currently used on and what method
+ * The method is in http format to be easily used in the corresponding fetches.
+ * It also takes props for what user or book is to be updated and the user or books states or setStates for saving the response
+ */
+
 import React from "react";
 import ButtonComponent from "./ButtonComponent";
 import fetchService from "../../service/fetchService";

@@ -1,5 +1,8 @@
+/**
+ * A file to mock the authService for the endpoints login and registration
+ */
+
 import jwt from "jsonwebtoken";
-import { useChangeCurrentUser } from "../../context/userContext";
 
 function login(username, password) {
   console.log("credentials: ", username, password);
@@ -12,7 +15,7 @@ function login(username, password) {
         "somesecretsareawesomebutpenguinsbeatthemall"
       );
       sessionStorage.setItem("jwt-token", accessToken);
-      const response = { user:{username, role: "admin"}, status: 200};
+      const response = { user: { username, role: "admin" }, status: 200 };
       resolve(response);
     }
   });
