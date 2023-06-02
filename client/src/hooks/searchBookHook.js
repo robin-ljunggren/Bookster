@@ -1,3 +1,11 @@
+/**
+ * This file is for a custom hook to search for books
+ * it uses State and effect to handle the fetch of books
+ * It takes in a query parameter as well as the function to setAllBooks state
+ * Listens for changes of the query parameter and triggers the fetch after a small delay to see if
+ * the user types more
+ */
+
 import { useState, useEffect } from "react";
 import fetchService from "../service/fetchService";
 
@@ -20,7 +28,7 @@ export default function useBookSearchApi(query, setAllBooks) {
         if (result.length === 0) {
           setNoData(true);
         }
-        setAllBooks({books: result});
+        setAllBooks({ books: result });
         setIsLoading(false);
       } catch (err) {
         console.log(err);

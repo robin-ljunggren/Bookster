@@ -1,3 +1,8 @@
+/**
+ * This file is for the Login and registration form
+ * By changing the formState it changes both text and functions to handle either login or registration
+ */
+
 import React, { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent.js";
 import authService from "../../service/authService.js";
@@ -78,7 +83,8 @@ export default function AuthForm({ dialogRef }) {
         {formState === "login" ? "Sign in" : "Register"}
       </h2>
       <label className="username-header">Username:</label>
-      <input className="username-box"
+      <input
+        className="username-box"
         data-testid="auth-input-username"
         value={credentials.username}
         onChange={(e) =>
@@ -87,7 +93,8 @@ export default function AuthForm({ dialogRef }) {
         placeholder="Type your username..."
       />
       <label className="password-header">Password:</label>
-      <input className="password-box"
+      <input
+        className="password-box"
         data-testid="auth-input-password"
         type="password"
         value={credentials.password}
@@ -103,22 +110,19 @@ export default function AuthForm({ dialogRef }) {
           className={"login-btn"}
           testId={"login-btn"}
           txt={"Sign in"}
-          // onClick={handleSubmit}
         />
       ) : (
         <ButtonComponent
           className={"register-btn"}
           testId={"register-btn"}
           txt={"Register new account"}
-          // onClick={handleSubmit}
           type="submit"
         />
       )}
       <button
         type="reset"
         className="btn-guest-btn"
-        onClick={() => dialogRef.current.close()}
-        >
+        onClick={() => dialogRef.current.close()}>
         Proceed as guest
       </button>
     </form>

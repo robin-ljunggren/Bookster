@@ -1,3 +1,7 @@
+/**
+ * This file is for a navigation component that renders 2 links to navigate between the pages users and books
+ */
+
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./NavigationComponent.css";

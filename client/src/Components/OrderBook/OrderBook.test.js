@@ -7,7 +7,7 @@ test("Can't decrement amount to order less than 0", () => {
       book={{
         title: "Harry Potter",
         author: "J.K. Rowling",
-        quantity: 0,
+        quantity: 2,
       }}
     />
   );
@@ -39,24 +39,22 @@ test("Can't increment amount to order more than what's in stock", () => {
   expect(incBtn).toBeDisabled();
 });
 
-test("Dec and inc buttons work as expected", () => {
+test("all buttons in order book to be disabled if book is out of stock", () => {
   render(
     <OrderBook
       book={{
         title: "Harry Potter",
         author: "J.K. Rowling",
-        quantity: 1,
+        quantity: 0,
       }}
     />
   );
 
   const incBtn = screen.getByTestId("inc-amount-btn");
   const decBtn = screen.getByTestId("dec-amount-btn");
-  const amountInput = screen.getByTestId("order-amount-input");
+  const orderBtn = screen.getByTestId("order-btn");
 
-  fireEvent.click(incBtn);
-  fireEvent.click(decBtn);
-
-  expect(amountInput.value).toBe("0");
+  expect(orderBtn).toBeDisabled();
+  expect(incBtn).toBeDisabled();
   expect(decBtn).toBeDisabled();
 });
