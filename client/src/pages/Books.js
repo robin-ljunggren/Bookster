@@ -3,7 +3,7 @@
  * imports the components needed and renders a table from the result of the fetch of all books.
  */
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import OrderBook from "../Components/OrderBook/OrderBook";
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
@@ -15,8 +15,7 @@ import NavigationComponent from "../Components/abstract/NavigationComponent/Navi
 import ButtonComponent from "../Components/abstract/ButtonComponent";
 import EditAddPopUp from "../Components/abstract/EditAddPopUp/EditAddPopUp";
 import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp/PromoteDeletePopUp";
-import fetchService from "../service/fetchService";
-// import useShortPoll from "../hooks/shortPollHook";
+import useShortPoll from "../hooks/useShortPollHook";
 
 export default function Books() {
   const currentUser = useCurrentUser();
@@ -27,30 +26,14 @@ export default function Books() {
     previous: {},
   });
   const [bookToDelete, setBookToDelete] = useState("");
-  const [allBooks, setAllBooks] = useState({});
+  const [allBooks, setAllBooks] = useState({ books: [], version: "0" });
+
   const promoteDeleteRef = useRef();
   const editAddRef = useRef();
 
   const { isSearching, noData } = useBookSearchApi(query, setAllBooks);
-  // const { timeoutMs } = useShortPoll(query, allBooks, setAllBooks);
 
-  useEffect(() => {
-    fetchService.getAllBooks().then((data) => setAllBooks(data));
-  }, []);
-
-  // TODO: which to keep
-  /*
-    async function fetchAllBook() {
-    const result = await fetchService.getAllBooks();
-    setAllBooks(result);
-  }
-
-  useEffect(() => {
-    if (query === "") {
-      fetchAllBook();
-    }
-  }, [query]);
-   */
+  useShortPoll(query, allBooks, setAllBooks, 3000);
 
   return (
     <div className="page-wrapper">
@@ -88,9 +71,13 @@ export default function Books() {
         />
         <tbody>
           {noData ? (
-            <p>There is no book with that title or author</p>
+            <tr>
+              <td>There is no book with that title or author</td>
+            </tr>
           ) : isSearching ? (
-            <p>Searching after books...</p>
+            <tr>
+              <td>Searching after books...</td>
+            </tr>
           ) : (
             allBooks.books &&
             allBooks.books.map((book) => (
@@ -104,6 +91,7 @@ export default function Books() {
                     "Out of Stock"
                   ) : (
                     <OrderBook
+                      setQuery={setQuery}
                       book={book}
                       setAllBooks={setAllBooks}
                       allBooks={allBooks}
