@@ -1,3 +1,8 @@
+/**
+ * A file for a context to provide the current user state
+ * exports the provider and two functions to use and update the state
+ */
+
 import React, { useContext, useState } from "react";
 import authService from "../service/authService";
 

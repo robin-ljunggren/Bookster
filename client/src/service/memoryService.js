@@ -1,3 +1,7 @@
+/**
+ * This file provides service functions for handling storage actions that is used in the project.
+ */
+
 function saveSessionValue(ref, value) {
   value = JSON.stringify(value);
 

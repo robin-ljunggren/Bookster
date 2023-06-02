@@ -1,3 +1,9 @@
+/**
+ * This file provides service functions for auth endpoints, login and registration,
+ * that is used in the project.
+ * Each service function returns the JSON data and the status code of the response
+ */
+
 import memoryService from "./memoryService";
 import jwtUtil from "../util/jwtUtil";
 

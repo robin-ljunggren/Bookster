@@ -1,3 +1,10 @@
+/**
+ * This file is for the sites header that should be rendered on each page
+ * It uses the context of both auth and current user to determine if you
+ * are browsing as a guest or a user and provides the appropriate actions
+ * to either log in or log out
+ */
+
 import React, { useRef } from "react";
 import "./SiteHeader.css";
 import ButtonComponent from "../abstract/ButtonComponent.js";
@@ -10,7 +17,6 @@ import {
 import memoryService from "../../service/memoryService";
 
 export default function SiteHeader() {
-  // states and username will be passed through useContext instead
   const authState = useAuthState();
   const setAuthState = useToggleAuthState();
   const currentUser = useCurrentUser();
@@ -21,10 +27,12 @@ export default function SiteHeader() {
     <header className="site-header-container">
       <h1 className="site-header-h1">Booksters Website</h1>
       <section className="site-header-section">
-        <p data-testid="current-user">
+        <p className="browsing-as-text" data-testid="current-user">
           {!authState
             ? `Browsing as guest`
-            : `Browsing as user ${currentUser.username}`}
+            : `Browsing as ${currentUser.role.toLowerCase()} ${
+                currentUser.username
+              }`}
         </p>
         {!authState ? (
           <ButtonComponent
@@ -48,8 +56,8 @@ export default function SiteHeader() {
           />
         )}
       </section>
-      <dialog ref={dialogRef}>
-        <AuthForm dialogRef={dialogRef}/>
+      <dialog className="auth-form-dialog" ref={dialogRef}>
+        <AuthForm dialogRef={dialogRef} />
       </dialog>
     </header>
   );

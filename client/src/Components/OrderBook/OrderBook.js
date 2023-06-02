@@ -1,9 +1,18 @@
+/**
+ * This file is for the component that will allow a signed in user to order a book
+ * It renders in each row of the table for books
+ * It takes in a book as prop and holds it's own state for that book.
+ * It has the functions to alter how many books the user wants to order, limited to how many is in store
+ * If the user clicks Order, the component calls the fetchservice buyBooks and handles the response, 
+ * It takes in the state ant setState function of allBooks and saves the response context to the allBooks state 
+ */
+
 import { useState } from "react";
 import ButtonComponent from "../abstract/ButtonComponent";
-import memoryService from "../../service/memoryService";
 import fetchService from "../../service/fetchService";
+import "./OrderBook.css";
 
-export default function OrderBook({ book, setUpdate }) {
+export default function OrderBook({ book, setAllBooks, allBooks }) {
   const bookQty = book.quantity;
   const [bookToOrder, setBookToOrder] = useState({
     title: book.title,
@@ -12,8 +21,10 @@ export default function OrderBook({ book, setUpdate }) {
 
   async function handleOrder() {
     const response = await fetchService.buyBook(bookToOrder);
-    console.log("buy: ", response);
+    alert(`You Have ${response.message}, quantity: ${response.quantity} `);
     setBookToOrder({ ...bookToOrder, quantity: 0 });
+    if (allBooks.version !== response.context.version)
+      setAllBooks(response.context);
   }
 
   return (

@@ -1,44 +1,61 @@
+/**
+ * This file is to render the page for administrating users
+ * imports the components needed and renders a table from the result of the fetch of all users.
+ */
+
 import THeadComponent from "../Components/TableComponents/THeadComponent";
 import TableRowComponent from "../Components/TableComponents/TableRowComponent";
 import "./styles/Users.css";
 import { useCurrentUser } from "../context/userContext";
-import NavigationComponent from "../Components/abstract/NavigationComponent";
+import NavigationComponent from "../Components/abstract/NavigationComponent/NavigationComponent";
 import { Navigate } from "react-router-dom";
 import ButtonComponent from "../Components/abstract/ButtonComponent";
 import { useRef, useState, useEffect } from "react";
-import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp";
+import PromoteDeletePopUp from "../Components/abstract/PromoteDeletePopUp/PromoteDeletePopUp";
 import fetchService from "../service/fetchService";
-
 
 export default function Users() {
   const currentUser = useCurrentUser();
   const [allUsers, setAllUsers] = useState([]);
   const promoteDeleteRef = useRef();
-  const [actionState, setActionState] = useState({ method: "" });
-  const [userContent, setUserContent] = useState({});
+  const [method, setMethod] = useState("");
+  const [userAccount, setUserAccount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchService.getAllUsers().then((result) => setAllUsers(result.users));
+    setIsLoading(true);
+    fetchService.getAllUsers().then((result) => {
+      setAllUsers(result);
+      setIsLoading(false);
+    });
   }, []);
 
   if (currentUser.role !== "ADMIN") {
     return <Navigate to={"/"} />;
   }
   return (
-    <>
-      {currentUser.role === "ADMIN" && <NavigationComponent />}
-      {allUsers.length <= 0 ? (
-        "Loading..."
-      ) : (
-        <table>
-          <THeadComponent
-            col1={"Username"}
-            col2={"Role"}
-            col3={"Purchases"}
-            action={"Action"}
-          />
-          <tbody>
-            {allUsers.map((user) => (
+    <div className="page-wrapper">
+      <div className="flex-container-userspage">
+        <NavigationComponent />
+      </div>
+      <table className="users-table-styling">
+        <THeadComponent
+          col1={"Username"}
+          col2={"Role"}
+          col3={"Purchases"}
+          action={"Action"}
+        />
+        <tbody>
+          {isLoading ? (
+            <tr>
+              <td colSpan={4}>Loading...</td>
+            </tr>
+          ) : allUsers.length <= 0 ? (
+            <tr>
+              <td colSpan={4}>List is empty</td>
+            </tr>
+          ) : (
+            allUsers.users.map((user) => (
               <TableRowComponent
                 key={crypto.randomUUID()}
                 col1={user.username}
@@ -47,9 +64,10 @@ export default function Users() {
                 action={
                   <div>
                     <ButtonComponent
+                      className={"promote-btn"}
                       onClick={() => {
-                        setActionState({ method: "Promote" });
-                        setUserContent(user);
+                        setMethod("PUT");
+                        setUserAccount(user.username);
                         promoteDeleteRef.current.showModal();
                       }}
                       isDisabled={user.role === "ADMIN"}
@@ -57,8 +75,8 @@ export default function Users() {
                     />
                     <ButtonComponent
                       onClick={() => {
-                        setActionState({ method: "Delete" });
-                        setUserContent(user);
+                        setMethod("DELETE");
+                        setUserAccount(user.username);
                         promoteDeleteRef.current.showModal();
                       }}
                       txt={"Delete"}
@@ -66,18 +84,20 @@ export default function Users() {
                   </div>
                 }
               />
-            ))}
-          </tbody>
-        </table>
-      )}
-      <dialog ref={promoteDeleteRef}>
+            ))
+          )}
+        </tbody>
+      </table>
+      <dialog className="promote-delete-dialog" ref={promoteDeleteRef}>
         <PromoteDeletePopUp
           promoteDeleteRef={promoteDeleteRef}
-          method={actionState.method}
+          method={method}
           pageState={"users"}
-          username={userContent.username}
+          username={userAccount}
+          setListState={setAllUsers}
+          listState={allUsers}
         />
       </dialog>
-    </>
+    </div>
   );
 }
